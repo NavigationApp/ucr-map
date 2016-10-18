@@ -1,3 +1,3 @@
-from ucr_map import app
+from app import app
 
 app.run()
