@@ -2,5 +2,4 @@ from flask import Flask
 
 app = Flask(__name__)
 
-from app import views
-assert views
+from views import index
