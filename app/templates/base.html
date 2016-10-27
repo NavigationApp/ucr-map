@@ -23,7 +23,13 @@
     <div class="navbar-header">
       <a class="navbar-brand" href="#">UCR-Map</a>
     </div>
-    <p class="navbar-text navbar-right"><a href="#" class="navbar-link"><i class="fa fa-google" aria-hidden="true"></i></a></p>
+      {% if result %}
+        <p class="navbar-text navbar-right">
+        {{ result }}
+        </p>
+      {% else %}
+             <p class="navbar-text navbar-right"><a href="#" class="navbar-link"><i class="fa-google" aria-hidden="true"></i></a></p>
+      {% endif %}
   </div>
 </nav>
     {% block content %}

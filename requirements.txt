@@ -1,2 +1,3 @@
-Flask==0.11.1
+oauth2client
+Flask
 gunicorn==19.4.5
