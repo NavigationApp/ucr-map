@@ -1,7 +1,7 @@
 from flask import request, url_for, redirect,session
 from app import app
 import os
-import oauth2client
+from oauth2client import client
 
 import json
 @app.route('/login/<provider_name>/', methods=['GET', 'POST'])
@@ -10,7 +10,7 @@ def login(provider_name):
     Login handler, must accept both GET and POST to be able to use OpenID.
     """
 
-    flow = oauth2client.client.flow_from_clientsecrets(
+    flow = client.flow_from_clientsecrets(
         os.environ["GOOGLE"],
         scope=['email','profile'],
         redirect_uri = url_for('login', provider_name="google", _external=True))
