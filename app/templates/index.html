@@ -74,15 +74,18 @@ function normalize(string) {
 
 function setStartLocation() {
     // (33.974298, -117.328094)
-    var defLatitude = 33.974298;
+	// 33.973354, -117.328125
+    var defLatitude = 33.973354;
     var defLongitude = -117.328094;
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
             latitude = position.coords.latitude;
             longitude = position.coords.longitude;
             directions.setOrigin([longitude, latitude]);
-        });
-    }
+        }, function() {
+			directions.setOrigin([defLongitude, defLatitude]);
+		});
+	}
     else {
         directions.setOrigin([defLongitude, defLatitude]);
     }
@@ -100,15 +103,19 @@ map.on('load', function() {
 		map.getCanvas().style.cursor = features.length ? 'pointer' : '';
 	});
 
-	map.on('mousedown', function(e) {
+	map.on('click', function(e) {
 		var features = map.queryRenderedFeatures(e.point, {
 			layers: ['building-poi']
 		});
-		if (features) {
+        if (features.length > 0) {
 			var feature = features[0]
             setStartLocation();
 			directions.setDestination(feature.geometry.coordinates)
 		}
+        else {
+			setStartLocation();
+			directions.setDestination([e.lngLat.lng, e.lngLat.lat]);
+        }
 	});
 
 	filterInput.addEventListener('keyup', function(e) {
