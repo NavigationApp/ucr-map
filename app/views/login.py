@@ -6,7 +6,7 @@ from oauth2client import client
 import json
 
 
-def FileSpoof:
+class FileSpoof(object):
     def __init__(self, my_text):
         self.my_text = my_text
 
