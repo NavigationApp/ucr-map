@@ -12,5 +12,4 @@ def logout():
     Logout, must accept both GET and POST to be able to use OpenID.
     """
     session.pop('credentials', None)
-    flash("You were logged out")
     return redirect(url_for("index"))
