@@ -15,7 +15,7 @@
     .filter-ctrl {
         position: absolute;
         top: 60px;
-        right: 10px;
+        left: 10px;
         z-index: 1;
         width: 180px;
     }
@@ -58,11 +58,11 @@ var map = new mapboxgl.Map({
 });
 
 var directions = new mapboxgl.Directions({
-    profile: 'walking',
+    profile: 'cycling',
 	interactive: false,
     controls: {
         inputs: false,
-        instructions: false
+        instructions: true
     }
 });
 map.addControl(directions);
