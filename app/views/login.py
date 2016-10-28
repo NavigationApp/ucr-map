@@ -13,8 +13,9 @@ def login(provider_name):
     """
     output = StringIO.StringIO()
     output.write(os.environ["GOOGLE"])
+
     flow = client.flow_from_clientsecrets(
-        output,
+        "client.txt",
         scope=['email','profile'],
         redirect_uri = url_for('login', provider_name="google", _external=True))
     output.close()
