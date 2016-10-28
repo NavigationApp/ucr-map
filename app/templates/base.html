@@ -33,14 +33,15 @@
                         {% if result %}
                             <li>
                             <p class="navbar-text navbar-right">
-                                <a href="/logout/">Logout</a>
+                                {{ result }}
                             </p>
                             </li>
                             <li>
                             <p class="navbar-text navbar-right">
-                                {{ result }}
+                                <a href="/logout/">Logout</a>
                             </p>
                             </li>
+
                           {% else %}
                             <li>
                                  <a href="/login/google" class="navbar-link"><i class="fa fa-google" aria-hidden="true"></i></a>
