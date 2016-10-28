@@ -6,10 +6,11 @@ import StringIO
 import json
 
 
-@app.route('/logout/', methods=['GET', 'POST'])
-def logout(provider_name):
+@app.route('/logout/')
+def logout():
     """
     Logout, must accept both GET and POST to be able to use OpenID.
     """
-    del session['credentials']
+    session.pop('credentials', None)
+    flash("You were logged out")
     return redirect(url_for("index"))
