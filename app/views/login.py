@@ -4,6 +4,15 @@ import os
 from oauth2client import client
 
 import json
+
+
+def FileSpoof:
+    def __init__(self, my_text):
+        self.my_text = my_text
+
+    def readlines(self):
+        return self.my_text.splitlines()
+
 @app.route('/login/<provider_name>/', methods=['GET', 'POST'])
 def login(provider_name):
     """
@@ -11,7 +20,7 @@ def login(provider_name):
     """
 
     flow = client.flow_from_clientsecrets(
-        os.environ["GOOGLE"],
+        FileSpoof(os.environ["GOOGLE"]),
         scope=['email','profile'],
         redirect_uri = url_for('login', provider_name="google", _external=True))
     if 'code' not in request.args:
