@@ -1,6 +1,8 @@
 import os
 from flask import Flask
 
+from __future__ import print_function
+
 app = Flask(__name__)
 app.secret_key = os.environ["SECRET"]
 
