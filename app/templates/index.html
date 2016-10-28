@@ -72,6 +72,20 @@ function normalize(string) {
 	return string.trim().toLowerCase();
 }
 
+function getLocation() {
+//			directions.setOrigin([-117.321044, 33.974737]);
+    // (33.975189, -117.325946)
+    latitude = 33.975189;
+    longitude = -117.325946;
+    if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            latitude = position.coords.latitude;
+            longitude = position.coords.longitude;
+    });
+    }
+    return [longitude, latitude];
+}
+
 map.on('load', function() {
 	var features = map.queryRenderedFeatures({layers:['building-poi']});
 
@@ -90,7 +104,7 @@ map.on('load', function() {
 		});
 		if (features) {
 			var feature = features[0]
-			directions.setOrigin([-117.321044, 33.974737])
+			directions.setOrigin(getLocation())
 			directions.setDestination(feature.geometry.coordinates)
 		}
 	});
