@@ -72,18 +72,20 @@ function normalize(string) {
 	return string.trim().toLowerCase();
 }
 
-function getLocation() {
-//			directions.setOrigin([-117.321044, 33.974737]);
-    // (33.975189, -117.325946)
-    latitude = 33.975189;
-    longitude = -117.325946;
-    if ("geolocation" in navigator) {
+function setStartLocation() {
+    // (33.974298, -117.328094)
+    var defLatitude = 33.974298;
+    var defLongitude = -117.328094;
+    if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
             latitude = position.coords.latitude;
             longitude = position.coords.longitude;
-    });
+            directions.setOrigin([longitude, latitude]);
+        });
     }
-    return [longitude, latitude];
+    else {
+        directions.setOrigin([defLongitude, defLatitude]);
+    }
 }
 
 map.on('load', function() {
@@ -104,7 +106,7 @@ map.on('load', function() {
 		});
 		if (features) {
 			var feature = features[0]
-			directions.setOrigin(getLocation())
+            setStartLocation();
 			directions.setDestination(feature.geometry.coordinates)
 		}
 	});
