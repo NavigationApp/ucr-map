@@ -1,8 +1,6 @@
 from flask import request, url_for, redirect,session
 from app import app
-import os
 from oauth2client import client
-import StringIO
 import json
 
 
