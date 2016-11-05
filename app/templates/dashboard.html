@@ -1,4 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-    Hello!!
+    {% for u in users %}
+        {{ u.connections.full_name }}
+    {% endfor %}
 {% endblock %}
