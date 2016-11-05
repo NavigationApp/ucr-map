@@ -2,12 +2,20 @@
 {% block content %}
     <table class="table table-striped">
         <tr>
+            <th>User ID</th>
             <th>Name</th>
+            <th>Role</th>
         </tr>
         {% for u in users %}
             <tr>
                 <th>
+                    {{ u.connections.user_id }}
+                </th>
+                <th>
                     {{ u.connections.full_name }}
+                </th>
+                <th>
+                    {{ u.roles.name }}
                 </th>
             </tr>
         {% endfor %}
