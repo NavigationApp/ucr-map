@@ -6,11 +6,13 @@ from flask import Flask, render_template, session
 from flask_social import Social, login_failed
 from flask_sslify import SSLify
 from flask_sqlalchemy import SQLAlchemy
+from flask.ext.heroku import Heroku
 from flask.ext.social.datastore import SQLAlchemyConnectionDatastore
 from flask_security import Security, SQLAlchemyUserDatastore,login_user
 from flask_social.views import connect_handler
 from flask.ext.social.utils import get_connection_values_from_oauth_response
 app = Flask(__name__)
+heroku = Heroku()
 
 # Setting up SSL
 sslify = SSLify(app)
@@ -27,7 +29,6 @@ app.config['SOCIAL_GOOGLE'] = {
                        'consumer_key': os.environ['GOOGLE_ID'],
                        'consumer_secret': os.environ['GOOGLE_SECRET']
                       }
-app.config['SECURITY_LOGIN_URL'] = "/none"  # We are using google as a login
 
 # Setting up new users
 @login_failed.connect_via(app)
@@ -49,6 +50,7 @@ from app.models import User, Role, Connection
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 security = Security(app, user_datastore)
 social = Social(app, SQLAlchemyConnectionDatastore(db, Connection))
+heroku.init_app(app)
 
 # Initiating views
 from views import index, logout

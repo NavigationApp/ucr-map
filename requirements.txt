@@ -6,3 +6,4 @@ flask-security
 Flask-Social
 oauth2client
 google-api-python-client
+flask-heroku
