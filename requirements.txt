@@ -7,3 +7,4 @@ Flask-Social
 oauth2client
 google-api-python-client
 flask-heroku
+psycopg2
