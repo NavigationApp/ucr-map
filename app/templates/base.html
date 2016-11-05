@@ -14,6 +14,7 @@
       <script src='https://api.mapbox.com/mapbox-gl-js/v0.26.0/mapbox-gl.js'></script>
       <link href='https://api.mapbox.com/mapbox-gl-js/v0.26.0/mapbox-gl.css' rel='stylesheet' />
       <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" media="screen" />
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.0.0/bootstrap-social.min.css" rel="stylesheet" media="screen" />
 
   </head>
   <body style="height: 100%; padding-bottom: -10px;">
@@ -44,7 +45,7 @@
                           {% else %}
                             <li>
                             <form action="{{ url_for('social.login', provider_id='google') }}" method="POST">
-                                <button type='submit' class="btn btn-social-icon btn-google navbar-right navbar-btn"><span class="fa fa-google"></span></button>
+                                <button type='submit' class="btn btn-social-icon btn-google navbar-right navbar-btn">            <span class="fa fa-google"></span></button>
                             </form>
                         </li>
                         {% endif %}
