@@ -32,7 +32,7 @@ app.config['SOCIAL_GOOGLE'] = {
 
 
 # Initiating views
-from views import index, logout
+from views import index, logout, dashboard
 
 # Setup Flask-Security
 from app.models import User, Role, Connection
