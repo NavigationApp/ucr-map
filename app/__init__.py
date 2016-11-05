@@ -34,18 +34,9 @@ app.config['SOCIAL_GOOGLE'] = {
 # Initiating views
 from views import index, logout
 
-@app.before_first_request
-def before_first_request():
-    try:
-        db.create_all()
-    except Exception, e:
-        app.logger.error(str(e))
-
 # Setting up new users
 @login_failed.connect_via(app)
 def on_login_failed(sender, provider, oauth_response):
-    app.logger.debug('Social Login Failed via %s; '
-                     '&oauth_response=%s' % (provider.name, oauth_response))
     connection_values = get_connection_values_from_oauth_response(provider, oauth_response)
     connection_values['display_name'] = connection_values['display_name']['givenName'] +" "+ connection_values['display_name']['familyName']
     connection_values['full_name'] = connection_values['display_name']
@@ -64,4 +55,16 @@ user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 app.security = Security(app, user_datastore)
 app.social = Social(app, SQLAlchemyConnectionDatastore(db, Connection))
 heroku.init_app(app)
+
+
+@app.before_first_request
+def before_first_request():
+    try:
+        db.create_all()
+        user_datastore.find_or_create_role(name="user", description="Default user role")
+        admin_role = user_datastore.find_or_create_role(name="admin", description="Admin role")
+        user = user_datastore.find_user("karai001@ucr.edu")
+        user_datastore.add_role_to_user(user, admin_role)
+    except Exception, e:
+        app.logger.error(str(e))
 
