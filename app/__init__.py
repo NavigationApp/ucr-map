@@ -34,6 +34,13 @@ app.config['SOCIAL_GOOGLE'] = {
 # Initiating views
 from views import index, logout
 
+# Setup Flask-Security
+from app.models import User, Role, Connection
+user_datastore = SQLAlchemyUserDatastore(db, User, Role)
+app.security = Security(app, user_datastore)
+app.social = Social(app, SQLAlchemyConnectionDatastore(db, Connection))
+heroku.init_app(app)
+
 # Setting up new users
 @login_failed.connect_via(app)
 def on_login_failed(sender, provider, oauth_response):
@@ -49,17 +56,10 @@ def on_login_failed(sender, provider, oauth_response):
     db.session.commit()
     return render_template('index.html')
 
-# Setup Flask-Security
-from app.models import User, Role, Connection
-user_datastore = SQLAlchemyUserDatastore(db, User, Role)
-app.security = Security(app, user_datastore)
-app.social = Social(app, SQLAlchemyConnectionDatastore(db, Connection))
-heroku.init_app(app)
-
 db.create_all()
 user_datastore.find_or_create_role(name="user", description="Default user role")
 admin_role = user_datastore.find_or_create_role(name="admin", description="Admin role")
-user = user_datastore.find_user("karai001@ucr.edu")
+user = user_datastore.get_user("karai001@ucr.edu")
 user_datastore.add_role_to_user(user, admin_role)
 db.session.commit()
 
