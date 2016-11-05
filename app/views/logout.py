@@ -1,15 +1,10 @@
-from flask import request, url_for, redirect,session
+from flask import url_for, redirect,session
 from app import app
-import os
-from oauth2client import client
-import StringIO
-import json
+from flask_security.utils import logout_user
+
 
 
 @app.route('/logout/')
 def logout():
-    """
-    Logout, must accept both GET and POST to be able to use OpenID.
-    """
-    session.pop('credentials', None)
-    return redirect(url_for("index"))
+    logout_user()
+    return redirect(url_gfor("index"))

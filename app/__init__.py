@@ -32,12 +32,12 @@ app.config['SOCIAL_GOOGLE'] = {
 
 
 # Initiating views
-from views import index, logout
+from views import index
 
 @app.before_first_request
 def before_first_request():
     try:
-        app.db.create_all()
+        db.create_all()
     except Exception, e:
         app.logger.error(str(e))
 
