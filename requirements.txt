@@ -1,6 +1,8 @@
-oauth2client
 Flask
 gunicorn==19.4.5
 Flask-SSLify
 flask-sqlalchemy
 flask-security
+Flask-Social
+oauth2client
+google-api-python-client
