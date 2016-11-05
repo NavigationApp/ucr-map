@@ -1,5 +1,5 @@
 from flask import render_template
-from flask_security.core import roles_required
+from flask_security.decorators import roles_required
 from app import app
 
 
