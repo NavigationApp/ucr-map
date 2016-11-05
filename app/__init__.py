@@ -30,16 +30,16 @@ app.config['SOCIAL_GOOGLE'] = {
                        'consumer_secret': os.environ['GOOGLE_SECRET']
                       }
 
-class SocialLoginError(Exception):
-    def __init__(self, provider):
-        self.provider = provider
 
-    @app.before_first_request
-    def before_first_request():
-        try:
-            app.db.create_all()
-        except Exception, e:
-            app.logger.error(str(e))
+# Initiating views
+from views import index, logout
+
+@app.before_first_request
+def before_first_request():
+    try:
+        app.db.create_all()
+    except Exception, e:
+        app.logger.error(str(e))
 
 # Setting up new users
 @login_failed.connect_via(app)
@@ -65,5 +65,3 @@ app.security = Security(app, user_datastore)
 app.social = Social(app, SQLAlchemyConnectionDatastore(db, Connection))
 heroku.init_app(app)
 
-# Initiating views
-from views import index, logout
