@@ -18,6 +18,7 @@ class User(db.Model):
     roles = db.relationship('Role',
                             secondary=roles_users,
                             backref=db.backref('users', lazy='dynamic'))
+
     connections = db.relationship('Connection',
                                   backref=db.backref('user', lazy='joined'),
                                   cascade="all", uselist=False)
