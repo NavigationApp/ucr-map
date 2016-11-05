@@ -56,15 +56,10 @@ app.security = Security(app, user_datastore)
 app.social = Social(app, SQLAlchemyConnectionDatastore(db, Connection))
 heroku.init_app(app)
 
-
-@app.before_first_request
-def before_first_request():
-    try:
-        db.create_all()
-        user_datastore.find_or_create_role(name="user", description="Default user role")
-        admin_role = user_datastore.find_or_create_role(name="admin", description="Admin role")
-        user = user_datastore.find_user("karai001@ucr.edu")
-        user_datastore.add_role_to_user(user, admin_role)
-    except Exception, e:
-        app.logger.error(str(e))
+db.create_all()
+user_datastore.find_or_create_role(name="user", description="Default user role")
+admin_role = user_datastore.find_or_create_role(name="admin", description="Admin role")
+user = user_datastore.find_user("karai001@ucr.edu")
+user_datastore.add_role_to_user(user, admin_role)
+db.session.commit()
 
