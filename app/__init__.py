@@ -32,7 +32,7 @@ app.config['SOCIAL_GOOGLE'] = {
 
 
 # Initiating views
-from views import index
+from views import index, logout
 
 @app.before_first_request
 def before_first_request():
