@@ -30,9 +30,22 @@ app.config['SOCIAL_GOOGLE'] = {
                        'consumer_secret': os.environ['GOOGLE_SECRET']
                       }
 
+class SocialLoginError(Exception):
+    def __init__(self, provider):
+        self.provider = provider
+
+    @app.before_first_request
+    def before_first_request():
+        try:
+            app.db.create_all()
+        except Exception, e:
+            app.logger.error(str(e))
+
 # Setting up new users
 @login_failed.connect_via(app)
 def on_login_failed(sender, provider, oauth_response):
+    app.logger.debug('Social Login Failed via %s; '
+                     '&oauth_response=%s' % (provider.name, oauth_response))
     connection_values = get_connection_values_from_oauth_response(provider, oauth_response)
     connection_values['display_name'] = connection_values['display_name']['givenName'] +" "+ connection_values['display_name']['familyName']
     connection_values['full_name'] = connection_values['display_name']
@@ -48,8 +61,8 @@ def on_login_failed(sender, provider, oauth_response):
 # Setup Flask-Security
 from app.models import User, Role, Connection
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
-security = Security(app, user_datastore)
-social = Social(app, SQLAlchemyConnectionDatastore(db, Connection))
+app.security = Security(app, user_datastore)
+app.social = Social(app, SQLAlchemyConnectionDatastore(db, Connection))
 heroku.init_app(app)
 
 # Initiating views
