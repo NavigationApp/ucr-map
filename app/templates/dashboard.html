@@ -1,6 +1,15 @@
 {% extends "base.html" %}
 {% block content %}
-    {% for u in users %}
-        {{ u.connections.full_name }}
-    {% endfor %}
+    <table class="table table-striped">
+        <tr>
+            <th>Name</th>
+        </tr>
+        {% for u in users %}
+            <tr>
+                <th>
+                    {{ u.connections.full_name }}
+                </th>
+            </tr>
+        {% endfor %}
+    </table>
 {% endblock %}
