@@ -30,14 +30,14 @@
                 </div>
                 <div class="collapse navbar-collapse" bs-collapse-target>
                     <ul class="nav navbar-nav navbar-right">
-                        {% if result %}
+                        {% if user.connections.full_name %}
                             <li>
                             <p class="navbar-text navbar-right">
                                 <a href="/logout/"> Logout</a>
                             </p>
                             &nbsp;
                             <p class="navbar-text navbar-right">
-                                {{ result }}
+                                {{ user.connections.full_name }}
                             </p>
                             </li>
 
