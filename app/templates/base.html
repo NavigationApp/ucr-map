@@ -44,9 +44,9 @@
 
                           {% else %}
                             <li>
-                            <form action="{{ url_for('social.login', provider_id='google') }}" method="POST">
-                                <button type='submit' class="btn btn-social-icon btn-google navbar-right navbar-btn"><i class="fa fa-google"></i></button>
-                            </form>
+                              <a class="btn btn-social-icon btn-google" href="{{ url_for('social.login', provider_id='google') }}" >
+                                    <span class="fa fa-twitter"></span>
+                              </a>
                             </li>
                         {% endif %}
                     </ul>
