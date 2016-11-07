@@ -31,7 +31,7 @@
                 <div class="collapse navbar-collapse" bs-collapse-target>
                     <ul class="nav navbar-nav">
                         <li data-match-route="/"><a href="/"><i class="fa fa-home fa-1x"></i></a></li>
-                        {% if current_user.has_role('Admin') %}
+                        {% if current_user.roles.has_role('Admin') %}
                             <li data-match-route="/dashboard">
                                 <a href="/dashboard">
                                     <span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span>
