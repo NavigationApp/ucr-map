@@ -48,7 +48,8 @@ def dashboard_edit(id, role):
     role = user_datastore.find_or_create_role(role)
     user = user_datastore.get_user(id)
     user_datastore.add_role_to_user(user, role)
-    return render_template("dashboard.html")
+    db.session.commit()
+    return render_template("dashboard.html", users=User.query.all())
 
 
 @app.route('/dashboard/delete/<id>')
@@ -56,7 +57,8 @@ def dashboard_edit(id, role):
 def dashboard_delete(id):
     user = User.query.filter_by(id=id).first()
     user_datastore.delete_user(user)
-    return render_template("dashboard.html")
+    db.session.commit()
+    return render_template("dashboard.html", users=User.query.all())
 
 # Setting up new users
 @login_failed.connect_via(app)
