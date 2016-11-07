@@ -21,10 +21,11 @@
                         {% if u.roles %} {{ u.roles[0].name }} {% else %} Action {% endif %} <span class="caret"></span>
                       </button>
                       <ul class="dropdown-menu">
-                        <li><a href="/dashboard/{{ u.connections.user_id }}/Admin">Admin</a></li>
-                        <li><a href="/dashboard/{{ u.connections.user_id }}/User">User</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="/dashboard/delete/{{ u.connections.user_id }}">Delete</a></li>
+                            <li class="dropdown-header">Update Role</li>
+                            <li><a href="/dashboard/{{ u.connections.user_id }}/Admin">Admin</a></li>
+                            <li><a href="/dashboard/{{ u.connections.user_id }}/User">User</a></li>
+                            <li class="dropdown-header">Danger Zone</li>
+                            <li><a href="/dashboard/delete/{{ u.connections.user_id }}">Delete</a></li>
                       </ul>
                     </div>
                 </th>

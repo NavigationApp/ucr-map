@@ -24,6 +24,9 @@ class User(db.Model):
                                   cascade="all", uselist=False)
     active = False
 
+    def has_role(self, role_check):
+        return role_check in self.roles
+
     def is_active(self):
         return True
 
