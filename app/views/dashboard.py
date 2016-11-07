@@ -23,6 +23,6 @@ def dashboard_edit(id, role):
 @roles_required('Admin')
 def dashboard_delete(id):
     user = User.query.filter_by(id=id).first()
-    User.delete(user)
+    db.session.delete(user)
     db.session.commit()
     return render_template("index.html")
