@@ -3,6 +3,7 @@ from flask_security.decorators import roles_required
 from flask_security.core import current_user
 from app import app
 from app.models import User
+from app import db
 
 
 @app.route('/dashboard')
@@ -21,6 +22,7 @@ def dashboard_edit(id, role):
 @app.route('/dashboard/delete/<id>')
 @roles_required('Admin')
 def dashboard_delete(id):
-    user = User.query.find(id=id)
+    user = User.query.filter_by(id=id).first()
     User.delete(user)
+    db.session.commit()
     return render_template("index.html")
