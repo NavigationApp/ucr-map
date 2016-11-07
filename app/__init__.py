@@ -37,7 +37,7 @@ from views import index, logout, dashboard
 
 # Setup Flask-Security
 from app.models import User, Role, Connection
-user_datastore = SQLAlchemyUserDatastore(db, User, Role)
+app.user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 app.security = Security(app, user_datastore)
 app.social = Social(app, SQLAlchemyConnectionDatastore(db, Connection))
 heroku.init_app(app)

@@ -1,9 +1,8 @@
 from flask import render_template, request
 from flask_security.decorators import roles_required
 from flask_security.core import current_user
-from app import app
+from app import app, user_datastore
 from app.models import User
-from . import user_datastore
 
 @app.route('/dashboard')
 @roles_required('Admin')
