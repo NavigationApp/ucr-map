@@ -9,6 +9,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask.ext.heroku import Heroku
 from flask.ext.social.datastore import SQLAlchemyConnectionDatastore
 from flask_security import Security, SQLAlchemyUserDatastore,login_user, roles_required
+from flask_security.core import current_user
 from flask_social.views import connect_handler
 from flask.ext.social.utils import get_connection_values_from_oauth_response
 from pprint import pprint
@@ -49,7 +50,7 @@ def dashboard_edit(id, role):
     user = user_datastore.get_user(id)
     user_datastore.add_role_to_user(user, role)
     db.session.commit()
-    return render_template("dashboard.html", users=User.query.all())
+    return render_template("dashboard.html", user=current_user, users=User.query.all())
 
 
 @app.route('/dashboard/delete/<id>')
@@ -58,7 +59,7 @@ def dashboard_delete(id):
     user = User.query.filter_by(id=id).first()
     user_datastore.delete_user(user)
     db.session.commit()
-    return render_template("dashboard.html", users=User.query.all())
+    return render_template("dashboard.html", user=current_user, users=User.query.all())
 
 # Setting up new users
 @login_failed.connect_via(app)
