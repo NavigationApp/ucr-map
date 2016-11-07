@@ -65,11 +65,12 @@ def dashboard_delete(id):
 @login_failed.connect_via(app)
 def on_login_failed(sender, provider, oauth_response):
     connection_values = get_connection_values_from_oauth_response(provider, oauth_response)
-    pprint(connection_values)
     connection_values['display_name'] = connection_values['display_name']['givenName'] +" "+ connection_values['display_name']['familyName']
     connection_values['full_name'] = connection_values['display_name']
     session['google_id'] = connection_values['provider_user_id']
+    role = user_datastore.find_or_create_role("User")
     user = user_datastore.create_user(google_id=session['google_id'])
+    user_datastore.add_role_to_user(user, role)
     user_datastore.commit()
     connection_values['user_id'] = user.id
     connect_handler(connection_values, provider)

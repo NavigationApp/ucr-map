@@ -18,7 +18,7 @@
                     <!-- Single button -->
                     <div class="btn-group">
                       <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Pick Option <span class="caret"></span>
+                        {{ u.roles[0].name }} <span class="caret"></span>
                       </button>
                       <ul class="dropdown-menu">
                         <li><a href="/dashboard/{{ u.connections.user_id }}/Admin">Admin</a></li>
