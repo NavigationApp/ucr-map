@@ -4,7 +4,7 @@
         <tr>
             <th>User ID</th>
             <th>Name</th>
-            <th>Role</th>
+            <th>Options</th>
         </tr>
         {% for u in users %}
             <tr>
@@ -15,7 +15,19 @@
                     {{ u.connections.full_name }}
                 </th>
                 <th>
-                    {{ u.roles.name }}
+                    <!-- Single button -->
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Pick Option <span class="caret"></span>
+                      </button>
+                      <ul class="dropdown-menu">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">Separated link</a></li>
+                      </ul>
+                    </div>
                 </th>
             </tr>
         {% endfor %}

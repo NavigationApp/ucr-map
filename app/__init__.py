@@ -1,7 +1,7 @@
 from __future__ import print_function
 
 import os
-from pprint import pprint
+
 from flask import Flask, render_template, session
 from flask_social import Social, login_failed
 from flask_sslify import SSLify
@@ -45,7 +45,6 @@ heroku.init_app(app)
 @login_failed.connect_via(app)
 def on_login_failed(sender, provider, oauth_response):
     connection_values = get_connection_values_from_oauth_response(provider, oauth_response)
-    pprint(connection_values)
     connection_values['display_name'] = connection_values['display_name']['givenName'] +" "+ connection_values['display_name']['familyName']
     connection_values['full_name'] = connection_values['display_name']
     session['google_id'] = connection_values['provider_user_id']
