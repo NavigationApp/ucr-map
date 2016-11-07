@@ -30,9 +30,9 @@
                 </div>
                 <div class="collapse navbar-collapse" bs-collapse-target>
                     <ul class="nav navbar-nav">
-                        <li data-match-route="/"><a href="/"><i class="fa fa-home fa-1x"></i></a></li>
+                        <li data-toggle="tooltip" data-placement="bottom" title="Home" data-match-route="/"><a href="/"><i class="fa fa-home fa-1x"></i></a></li>
                         {% if "Admin" in current_user.roles %}
-                            <li data-match-route="/dashboard">
+                            <li data-toggle="tooltip" data-placement="bottom" title="Dashboard" data-match-route="/dashboard">
                                 <a href="/dashboard">
                                     <span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span>
                                 </a>
@@ -43,7 +43,7 @@
                         {% if user %}
                             <li>
                             <p class="navbar-text navbar-right">
-                                <a href="/logout/"> Logout</a>
+                                <a href="/logout/"> logout</a>
                             </p>
                             &nbsp;
                             <p class="navbar-text navbar-right">
