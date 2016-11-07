@@ -11,6 +11,7 @@ from flask.ext.social.datastore import SQLAlchemyConnectionDatastore
 from flask_security import Security, SQLAlchemyUserDatastore,login_user
 from flask_social.views import connect_handler
 from flask.ext.social.utils import get_connection_values_from_oauth_response
+from pprint import pprint
 app = Flask(__name__)
 heroku = Heroku()
 
@@ -45,6 +46,7 @@ heroku.init_app(app)
 @login_failed.connect_via(app)
 def on_login_failed(sender, provider, oauth_response):
     connection_values = get_connection_values_from_oauth_response(provider, oauth_response)
+    pprint(connection_values)
     connection_values['display_name'] = connection_values['display_name']['givenName'] +" "+ connection_values['display_name']['familyName']
     connection_values['full_name'] = connection_values['display_name']
     session['google_id'] = connection_values['provider_user_id']
