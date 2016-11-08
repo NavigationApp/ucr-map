@@ -143,7 +143,7 @@
                         button.className="btn btn-primary";
                         button.autocomplete = "off";
                         button.setAttribute('onclick', "socket.emit('add', {add: "+ key + "})");
-                        button.appendChild(document.createTextNode("Add Friend"));
+                        button.innerHTML = '<i class="fa fa-user-plus" aria-hidden="true"></i>';
                         entry.className = "list-group-item";
                         entry.id = key;
                         entry.appendChild(document.createTextNode(val));

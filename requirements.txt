@@ -10,3 +10,4 @@ flask-heroku
 psycopg2
 eventlet
 fuzzywuzzy
+flask_socketio
