@@ -59,6 +59,9 @@
                                             <div class="form-group">
                                                 <input type="text" id="current_friends" class="form-control" placeholder="Search friends">
                                             </div>
+                                             <ul id="friends-list" class="list-group">
+
+                                            </ul>
                                         </div>
                                         <div role="tabpanel" class="tab-pane" id="search">
                                             <div class="form-group">
@@ -120,6 +123,12 @@
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
     <script type="text/javascript" charset="utf-8">
         var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+        socket.on('connect', function(data){
+           socket.emit("get_all_friends")
+        });
+
+        // Handle search for new friends
         var inputBox = document.getElementById('sfriends');
         socket.on('names', function(data) {
             Object.keys(data).forEach(function(key) {
@@ -147,6 +156,29 @@
         });
         inputBox.onkeyup = function(){
             socket.emit('search', {search: inputBox.value});
+        }
+
+        // Handle display current friends
+        var friend_list_box = document.getElementById('current_friends');
+        socket.on('my_friends', function(data) {
+            Object.keys(data).forEach(function(key) {
+                var users = document.getElementById('friends-list');
+                users.innerHTML = "";
+                for (var key in data) {
+                    if (data.hasOwnProperty(key)) {
+                        var val = data[key];
+                        var entry = document.createElement('li');
+                        entry.className = "list-group-item";
+                        entry.id = key;
+                        entry.appendChild(document.createTextNode(val));
+                        users.appendChild(entry);
+
+                    }
+                }
+            });
+        });
+        friend_list_box.onkeyup = function(){
+            socket.send('get_friend');
         }
     </script>
     <!-- jQuery first, then Tether, then Bootstrap JS. -->

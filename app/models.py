@@ -43,11 +43,13 @@ class User(db.Model):
     def friend(self, user):
         if not self.is_friend(user):
             self.friended.append(user)
+            db.session.commit()
             return self
 
     def unfriend(self, user):
         if self.is_friend(user):
             self.friended.remove(user)
+            db.session.commit()
             return self
 
     def is_friend(self, user):
@@ -55,6 +57,9 @@ class User(db.Model):
 
     def get_user(self):
         return {self.id:self.connections.full_name}
+
+    def get_name(self):
+        return self.connections.full_name
 
     def has_role(self, role_check):
         return role_check in self.roles

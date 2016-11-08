@@ -19,8 +19,8 @@ app = Flask(__name__)
 heroku = Heroku()
 
 # Setting up SSL
-#sslify = SSLify(app)
-app.secret_key = "DEBUG SECRET" and os.environ["SECRET"]
+sslify = SSLify(app)
+app.secret_key =  os.environ["SECRET"]
 app.debug = False
 
 # Setting up database
@@ -78,6 +78,11 @@ socketio = SocketIO(app, async_mode=async_mode)
 def get_users_dict(users, names):
     for x in names:
         yield users.keys()[users.values().index(x[0])], x
+
+# todo add get_friends function for fuzzy search
+@socketio.on('get_all_friends')
+def get_all_friends_event():
+    emit("my_friends", {f.get_id():f.get_name() for f in current_user.friended})
 
 @socketio.on('search')
 def search_event(search):
