@@ -25,7 +25,7 @@ app.debug = False
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 app.config['SQLALCHEMY_ECHO'] = False  # Too much overhead
 db = SQLAlchemy(app) # This is the main db connection that should be passed around
-db.create_all()
+
 # Setting up OAuth
 app.config['SOCIAL_GOOGLE'] = {
                        'consumer_key': os.environ['GOOGLE_ID'],
