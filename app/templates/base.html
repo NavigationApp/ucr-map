@@ -34,6 +34,7 @@
                         <li data-toggle="tooltip" data-placement="bottom" title="Home" data-match-route="/"><a href="/"><i class="fa fa-home fa-1x"></i></a></li>
 
                         <!-- Large modal -->
+                        {% if user %}
                         <li>
                             <a data-toggle="modal" data-target=".bs-example-modal-lg">
                                 <i class="fa fa-user-plus" aria-hidden="true"></i>
@@ -77,7 +78,7 @@
 
 
                         <li><a><i class="fa fa-envelope" aria-hidden="true"></i></a></li>
-
+                        {% endif %}
 
                         {% if "Admin" in current_user.roles %}
                             <li data-toggle="tooltip" data-placement="bottom" title="Dashboard" data-match-route="/dashboard">
