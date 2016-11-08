@@ -75,11 +75,27 @@ elif async_mode == 'gevent':
 
 socketio = SocketIO(app, async_mode=async_mode)
 
+def get_users_dict(users, names):
+    for x in names:
+        yield users.keys()[users.values().index(x[0])], x
+
 @socketio.on('search')
 def search_event(search):
     users = User.query.all()
-    names = {x.id:x.connections.full_name for x in users}
-    emit("names", names)
+    users = {x.id:x.connections.full_name for x in users}
+
+    names = process.extract(search['search'], (users[key] for key in users), limit=10)
+    names.sort(key=lambda x: x[1], reverse=True)
+
+    emit("names", {x:y for x,y in get_users_dict(users, names)})
+
+@socketio.on('add')
+def add_event(add):
+    if current_user.is_authenticated:
+        friend_id = add['add']
+        current_user.friend(user_datastore.get_user(friend_id))
+    else:
+        return False
 
 @app.route('/dashboard/<id>/<role>')
 @roles_required('Admin')

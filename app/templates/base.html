@@ -116,6 +116,7 @@
         </nav>
     {% block content %}
     {% endblock %}
+
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
     <script type="text/javascript" charset="utf-8">
         var socket = io.connect('http://' + document.domain + ':' + location.port);
@@ -128,18 +129,24 @@
                     if (data.hasOwnProperty(key)) {
                         var val = data[key];
                         var entry = document.createElement('li');
+                        var button = document.createElement('button');
+                        button.id = "myButton" + key;
+                        button.className="btn btn-primary";
+                        button.autocomplete = "off";
+                        button.setAttribute('onclick', "socket.emit('add', {add: "+ key + "})");
+                        button.appendChild(document.createTextNode("Add Friend"));
                         entry.className = "list-group-item";
                         entry.id = key;
                         entry.appendChild(document.createTextNode(val));
+                        entry.appendChild(button)
                         users.appendChild(entry);
+
                     }
                 }
-
-
             });
         });
         inputBox.onkeyup = function(){
-            socket.emit('search', {data: inputBox.value});
+            socket.emit('search', {search: inputBox.value});
         }
     </script>
     <!-- jQuery first, then Tether, then Bootstrap JS. -->
