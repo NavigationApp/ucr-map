@@ -9,3 +9,4 @@ google-api-python-client
 flask-heroku
 psycopg2
 eventlet
+fuzzywuzzy

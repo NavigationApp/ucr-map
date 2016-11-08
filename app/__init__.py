@@ -11,6 +11,8 @@ from flask.ext.social.datastore import SQLAlchemyConnectionDatastore
 from flask_security import Security, SQLAlchemyUserDatastore,login_user, roles_required
 from flask_security.core import current_user
 from flask_social.views import connect_handler
+from flask_socketio import SocketIO, emit
+from fuzzywuzzy import process
 from flask.ext.social.utils import get_connection_values_from_oauth_response
 from pprint import pprint
 app = Flask(__name__)
@@ -40,6 +42,44 @@ user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 app.security = Security(app, user_datastore)
 app.social = Social(app, SQLAlchemyConnectionDatastore(db, Connection))
 heroku.init_app(app)
+
+
+# Setting up sockets
+async_mode = None
+
+if async_mode is None:
+    try:
+        import eventlet
+        async_mode = 'eventlet'
+    except ImportError:
+        pass
+
+    if async_mode is None:
+        try:
+            from gevent import monkey
+            async_mode = 'gevent'
+        except ImportError:
+            pass
+
+    if async_mode is None:
+        async_mode = 'threading'
+
+    print('async_mode is ' + async_mode)
+
+if async_mode == 'eventlet':
+    import eventlet
+    eventlet.monkey_patch()
+elif async_mode == 'gevent':
+    from gevent import monkey
+    monkey.patch_all()
+
+socketio = SocketIO(app, async_mode=async_mode)
+
+@socketio.on('search')
+def search_event(search):
+    users = User.query.all()
+    names = {x.id:x.connections.full_name for x in users}
+    emit("names", names)
 
 @app.route('/dashboard/<id>/<role>')
 @roles_required('Admin')

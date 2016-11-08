@@ -53,6 +53,9 @@ class User(db.Model):
     def is_friend(self, user):
         return self.friended.filter(friends.c.friended_id == user.id).count() > 0
 
+    def get_user(self):
+        return {self.id:self.connections.full_name}
+
     def has_role(self, role_check):
         return role_check in self.roles
 
