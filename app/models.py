@@ -1,10 +1,19 @@
 from app import db
 from flask_security import RoleMixin
 
-# Define models
+# Define associations
+
+friends = db.Table('friends',
+    db.Column('friend_id', db.Integer, db.ForeignKey('user.id')),
+    db.Column('friended_id', db.Integer, db.ForeignKey('user.id'))
+)
+
+
 roles_users = db.Table('roles_users',
         db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
         db.Column('role_id', db.Integer(), db.ForeignKey('role.id')))
+
+# Define models
 
 class Role(db.Model, RoleMixin):
     id = db.Column(db.Integer(), primary_key=True)
@@ -23,6 +32,26 @@ class User(db.Model):
                                   backref=db.backref('user', lazy='joined'),
                                   cascade="all", uselist=False)
     active = False
+
+    friended = db.relationship('User',
+                               secondary=friends,
+                               primaryjoin=(friends.c.friend_id == id),
+                               secondaryjoin=(friends.c.friended_id == id),
+                               backref=db.backref('friends', lazy='dynamic'),
+                               lazy='dynamic')
+
+    def friend(self, user):
+        if not self.is_friend(user):
+            self.friended.append(user)
+            return self
+
+    def unfriend(self, user):
+        if self.is_friend(user):
+            self.friended.remove(user)
+            return self
+
+    def is_friend(self, user):
+        return self.friended.filter(friends.c.followed_id == user.id).count() > 0
 
     def has_role(self, role_check):
         return role_check in self.roles

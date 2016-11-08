@@ -2,7 +2,7 @@ from __future__ import print_function
 
 import os
 
-from flask import Flask, render_template, session
+from flask import Flask, render_template, session, redirect, url_for
 from flask_social import Social, login_failed
 from flask_sslify import SSLify
 from flask_sqlalchemy import SQLAlchemy
@@ -17,22 +17,20 @@ app = Flask(__name__)
 heroku = Heroku()
 
 # Setting up SSL
-sslify = SSLify(app)
-app.secret_key = os.environ["SECRET"]
+#sslify = SSLify(app)
+app.secret_key = "DEBUG SECRET" and os.environ["SECRET"]
 app.debug = False
 
 # Setting up database
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 app.config['SQLALCHEMY_ECHO'] = False  # Too much overhead
 db = SQLAlchemy(app) # This is the main db connection that should be passed around
-
+db.create_all()
 # Setting up OAuth
 app.config['SOCIAL_GOOGLE'] = {
                        'consumer_key': os.environ['GOOGLE_ID'],
                        'consumer_secret': os.environ['GOOGLE_SECRET']
                       }
-
-
 # Initiating views
 from views import index, logout, dashboard
 
@@ -50,7 +48,7 @@ def dashboard_edit(id, role):
     user = user_datastore.get_user(id)
     user_datastore.add_role_to_user(user, role)
     db.session.commit()
-    return render_template("dashboard.html", user=current_user, users=User.query.all())
+    return redirect(url_for("dashboard", user=current_user, users=User.query.all()))
 
 
 @app.route('/dashboard/delete/<id>')
@@ -59,7 +57,7 @@ def dashboard_delete(id):
     user = User.query.filter_by(id=id).first()
     user_datastore.delete_user(user)
     db.session.commit()
-    return render_template("dashboard.html", user=current_user, users=User.query.all())
+    return redirect(url_for("dashboard", user=current_user, users=User.query.all()))
 
 # Setting up new users
 @login_failed.connect_via(app)
