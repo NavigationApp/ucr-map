@@ -19,7 +19,7 @@ app = Flask(__name__)
 heroku = Heroku()
 
 # Setting up SSL
-sslify = SSLify(app)
+#sslify = SSLify(app)
 app.secret_key =  os.environ["SECRET"]
 app.debug = False
 
