@@ -9,7 +9,6 @@ google-api-python-client
 flask-heroku
 psycopg2
 eventlet
-gevent
 fuzzywuzzy
 flask_socketio
 gevent-websocket
