@@ -145,7 +145,7 @@
                         var entry = document.createElement('li');
                         var button = document.createElement('button');
                         button.id = "myButton" + key;
-                        button.className="btn btn-primary";
+                        button.className="btn btn-primary pull-right";
                         button.autocomplete = "off";
                         button.setAttribute('onclick', "socket.emit('add', {add: "+ key + "})");
                         button.innerHTML = '<i class="fa fa-user-plus" aria-hidden="true"></i>';
