@@ -1,0 +1,30 @@
+{
+  "name": "ucr-map",
+  "scripts": {
+  },
+  "env": {
+    "FLASK_DEBUG": "FALSE",
+    "GOOGLE_ID": {
+      "required": true
+    },
+    "GOOGLE_SECRET": {
+      "required": true
+    },
+    "SECRET": {
+      "generator": "secret"
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  },
+  "addons": [
+    "heroku-postgresql"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    }
+  ]
+}
