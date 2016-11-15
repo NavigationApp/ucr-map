@@ -97,3 +97,5 @@ class Connection(db.Model):
     profile_url = db.Column(db.String(512))
     image_url = db.Column(db.String(512))
     rank = db.Column(db.Integer)
+
+db.create_all()

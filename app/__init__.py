@@ -14,25 +14,25 @@ from flask_social.views import connect_handler
 from flask_socketio import SocketIO, emit
 from fuzzywuzzy import process
 from flask.ext.social.utils import get_connection_values_from_oauth_response
-from pprint import pprint
 app = Flask(__name__)
 heroku = Heroku()
 
 # Setting up SSL
 #sslify = SSLify(app)
-app.secret_key = os.environ["SECRET"]
+app.secret_key = os.environ.get('SECRET', 'DEV_SECRET')
 app.debug = False
 
 # Setting up database
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///../../flask_app.db')
 app.config['SQLALCHEMY_ECHO'] = False  # Too much overhead
 db = SQLAlchemy(app) # This is the main db connection that should be passed around
 
 # Setting up OAuth
 app.config['SOCIAL_GOOGLE'] = {
-                       'consumer_key': os.environ['GOOGLE_ID'],
-                       'consumer_secret': os.environ['GOOGLE_SECRET']
+                       'consumer_key': os.environ.get('GOOGLE_ID', "No ID"),
+                       'consumer_secret': os.environ.get('GOOGLE_SECRET', "No Secret")
                       }
+
 # Initiating views
 from views import index, logout, dashboard
 
@@ -42,7 +42,6 @@ user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 app.security = Security(app, user_datastore)
 app.social = Social(app, SQLAlchemyConnectionDatastore(db, Connection))
 heroku.init_app(app)
-
 
 # Setting up sockets
 async_mode = None
