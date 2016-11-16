@@ -8,7 +8,10 @@
       <!-- Main Content-->
         <div class="row">
         <div id="map" style="width: 100%; height: 100%; position: absolute;">
+
 <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v2.2.0/mapbox-gl-directions.js'></script>
+<script src="{{url_for('static', filename='awesomplete.js')}}" async></script>
+<link rel='stylesheet' href="{{url_for('static', filename='awesomplete.css')}}" type='text/css' />
 <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v2.2.0/mapbox-gl-directions.css' type='text/css' />
         </div>
 <style>
@@ -17,7 +20,7 @@
         top: 60px;
         left: 10px;
         z-index: 1;
-        width: 180px;
+        width: 300px;
     }
 
     .filter-ctrl input[type=text] {
@@ -35,7 +38,7 @@
 </style>
 <div id='map'></div>
 <div class='filter-ctrl'>
-    <input id='filter-input' type='text' name='filter' placeholder='Filter by name' />
+    <input id='filter-input' type='text' name='filter' placeholder='Search Destination' />
 </div>
 
 <script>
@@ -43,30 +46,23 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiamhvbGxpc3RlciIsImEiOiJjaXR6YXI4enEwYnpwMnhuM
 
 var filterInput = document.getElementById('filter-input');
 
-// set bounds to UCR only
-var bounds = [
-    [-117.335715, 33.966891],  // Southwest coords
-    [-117.320575, 33.980049] // Northeast coords
-];
-        
 var map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/jhollister/citzb2fdj00ef2hlbnrqk2fw8',
     center: [-117.325, 33.973],
     zoom: 16,
-    maxBounds: bounds
 });
 
 var directions = new mapboxgl.Directions({
     profile: 'walking',
-	interactive: false,
+	interactive: true,
     controls: {
         inputs: false,
         instructions: true
     }
 });
 map.addControl(directions);
-//map.addControl(new mapboxgl.GeolocateControl({position: 'top-right'})); // position is optional
+
 
 function normalize(string) {
 	return string.trim().toLowerCase();
@@ -92,7 +88,29 @@ function setStartLocation() {
 }
 
 map.on('load', function() {
-	var features = map.queryRenderedFeatures({layers:['building-poi']});
+	//var features = map.querySourceFeatures("building-poi", { sourceLayer: "building-poi"});
+	var features = map.queryRenderedFeatures({layers: ['building-poi']});
+	var feature_names = [];
+	features.forEach(function(entry) {
+		feature_names.push(entry.properties.name)
+	});
+	var awesomplete = new Awesomplete(filterInput, {
+		list: feature_names,
+		minChars: 1,
+		}
+	);
+
+	filterInput.addEventListener('awesomplete-selectcomplete', function(e) {
+		console.log(e.text.value);
+		features.some(function(entry) {
+			if (entry.properties.name == e.text.value) {
+				setStartLocation();
+				directions.setDestination(entry.geometry.coordinates);
+				return true;
+			}
+		});
+	});
+
 
 	map.on('mousemove', function(e) {
 		var features = map.queryRenderedFeatures(e.point, {
@@ -117,29 +135,6 @@ map.on('load', function() {
 			directions.setDestination([e.lngLat.lng, e.lngLat.lat]);
         }
 	});
-
-	filterInput.addEventListener('keyup', function(e) {
-		// hide buildings that match input
-		var value = e.target.value.trim().toLowerCase();
-
-		// filter visible features that don't match input value
-		var filtered = features.filter(function(feature) {
-			var name = normalize(feature.properties.name);
-            return name.indexOf(value) > -1;
-        });
-
-
-        map.setFilter('building-poi', ['in', 'name'].concat(filtered.map(function(feature) {
-            return feature.properties.name;
-        })));
-
-//        if (filtered.length == 1) {
-//			var feature = filtered[0];
-//			directions.setOrigin([-117.321044, 33.974737]);
-//			directions.setDestination(feature.geometry.coordinates);
- //       }
-
-    });
 
 });
 
