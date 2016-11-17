@@ -10,32 +10,12 @@
         <div id="map" style="width: 100%; height: 100%; position: absolute;">
 
 <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v2.2.0/mapbox-gl-directions.js'></script>
-<script src="{{url_for('static', filename='awesomplete.js')}}" async></script>
-<link rel='stylesheet' href="{{url_for('static', filename='awesomplete.css')}}" type='text/css' />
+<script src="{{url_for('static', filename='js/awesomplete.js')}}" async></script>
+<link rel='stylesheet' href="{{url_for('static', filename='css/awesomplete.css')}}" type='text/css' />
+<link rel='stylesheet' href="{{url_for('static', filename='css/custom.css')}}" type='text/css' />
 <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v2.2.0/mapbox-gl-directions.css' type='text/css' />
         </div>
-<style>
-    .filter-ctrl {
-        position: absolute;
-        top: 60px;
-        left: 10px;
-        z-index: 1;
-        width: 300px;
-    }
 
-    .filter-ctrl input[type=text] {
-        font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-        width: 100%;
-        border: 0;
-        background-color: #fff;
-        height: 40px;
-        margin: 0;
-        color: rgba(0,0,0,.5);
-        padding: 10px;
-        box-shadow: 0 0 0 2px rgba(0,0,0,0.1);
-        border-radius: 3px;
-    }
-</style>
 <div id='map'></div>
 <div class='filter-ctrl'>
     <input id='filter-input' type='text' name='filter' placeholder='Search Destination' />
