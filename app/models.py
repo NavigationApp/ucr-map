@@ -98,4 +98,13 @@ class Connection(db.Model):
     image_url = db.Column(db.String(512))
     rank = db.Column(db.Integer)
 
+class Event(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    description = db.Column(db.String(255))
+    longitude = db.Column(db.Float(precision='3,8'))
+    latitude = db.Column(db.Float(precision='3,8'))
+    start_datetime = db.Column(db.DateTime)
+    end_datetime = db.Column(db.DateTime)
+
+
 db.create_all()
