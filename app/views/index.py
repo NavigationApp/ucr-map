@@ -6,8 +6,7 @@ from app import app, twitter_api, parking_screen_name
 
 def get_tweets():
     data = None
-
-    if twitter_api.VerifyCredentials():
+    if twitter_api and twitter_api.VerifyCredentials():
         tweets = twitter_api.GetUserTimeline(screen_name=parking_screen_name,count=3)
         for tweet in tweets:
             if 'avail' in tweet.text.lower():

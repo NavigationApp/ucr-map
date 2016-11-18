@@ -51,6 +51,11 @@ try:
 except:
     twitter_api = None
 
+for k in twitter_tokens:
+    if twitter_tokens[k] is None:
+        twitter_api = None
+        break
+
 # Initiating views
 from views import index, logout, dashboard
 

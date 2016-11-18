@@ -288,7 +288,7 @@ var geojson = {
         "br": {"latitude": 33.972376, "longitude": -117.329448},
       },
     },
-/*
+
     {
       "type": "Feature",
       "properties": {
@@ -303,17 +303,25 @@ var geojson = {
       },
       "id": "a267c6a191d6df5fa184397616cdd0f7",
       "doors": [
-        {"id": XX, "latitude": XXXXXXXX, "longitude": XXXXXXXX},
+        {"id": 00, "latitude": 33.973045, "longitude": -117.325911},
+        {"id": 01, "latitude": 33.45, "longitude": -117.326606},
+        {"id": 02, "latitude": 33.972677, "longitude": -117.326422},
+        {"id": 03, "latitude": 33.972523, "longitude": -117.326422},
+
       ],
       "rooms": [
-        {"number": XXXX, "ids": [XX, XX]},
+        {"number": "1222", "ids": ["00", "01"]},
+        {"number": "1307", "ids": ["00", "01", "02", "03"]},
+        {"number": "2200", "ids": ["00", "01"]},
+        {"number": "LS2418", "ids": ["00", "01", "02", "03"]},
       ],
-      "files": [XX, XX, XX, XX],
+      "files": ["", "images/spieth_level1.svg", "images/spieth_level2.svg", ""],
       "corners": {
-        "ul": {"latitude": XXXXXXXX, "longitude": XXXXXXXX},
-        "br": {"latitude": XXXXXXXX, "longitude": XXXXXXXX},
+        "ul": {"latitude": 33.973236, "longitude": -117.327041},
+        "br": {"latitude": 33.972060, "longitude": -117.325913},
       },
     },
+/*
     {
       "type": "Feature",
       "properties": {
