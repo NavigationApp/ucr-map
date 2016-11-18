@@ -391,7 +391,6 @@ var geojson = {
         "br": {"latitude": 33.975963, "longitude": -117.327125},
       },
     },
-/*
     {
       "type": "Feature",
       "properties": {
@@ -406,17 +405,36 @@ var geojson = {
       },
       "id": "dde417717387d843272904c6b6da0f24",
       "doors": [
-        {"id": XX, "latitude": XXXXXXXX, "longitude": XXXXXXXX},
+        {"id": "00", "latitude": 33.971288, "longitude": -117.328820},
+        {"id": "01", "latitude": 33.971119, "longitude": -117.328752},
+        {"id": "02", "latitude": 33.971566, "longitude": -117.327951},
+        {"id": "03", "latitude": 33.971571, "longitude": -117.327360},
+        {"id": "04", "latitude": 33.971452, "longitude": -117.327949},
+        {"id": "05", "latitude": 33.971340, "longitude": -117.327928},
+        {"id": "06", "latitude": 33.971182, "longitude": -117.327950},
+        {"id": "07", "latitude": 33.971101, "longitude": -117.327950},
       ],
       "rooms": [
-        {"number": XXXX, "ids": [XX, XX]},
+        {"number": "420", "ids": ["00"]},
+        {"number": "421", "ids": ["01"]},
+        {"number": "1116", "ids": ["02", "03"]},
+        {"number": "1122", "ids": ["02", "03"]},
+        {"number": "1123", "ids": ["02", "03"]},
+        {"number": "1126", "ids": ["02", "03"]},
+        {"number": "1127", "ids": ["02", "03"]},
+        {"number": "1132", "ids": ["02", "03"]},
+        {"number": "1133", "ids": ["02", "03"]},
+        {"number": "1136", "ids": ["02", "03"]},
+        {"number": "1208", "ids": ["04", "05"]},
+        {"number": "1212", "ids": ["06", "07"]},
       ],
-      "files": [XX, XX, XX, XX],
+      "files": ["images/olmsted_level0.svg", "", "images/olmsted_level1.svg", ""],
       "corners": {
-        "ul": {"latitude": XXXXXXXX, "longitude": XXXXXXXX},
-        "br": {"latitude": XXXXXXXX, "longitude": XXXXXXXX},
+        "ul": {"latitude": 33.971671, "longitude": -117.328928},
+        "br": {"latitude": 33.971009, "longitude": -117.327355},
       },
     },
+/*
     {
       "type": "Feature",
       "properties": {
