@@ -1,6 +1,7 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoiamhvbGxpc3RlciIsImEiOiJjaXR6YXI4enEwYnpwMnhuMjcycGJhYnBhIn0.K5YOZULwqBY53i9M_l0tOA';
 
-var filterInput = document.getElementById('filter-input');
+var destInput = document.getElementById('destination-input');
+var originInput = document.getElementById('origin-input');
 
 var map = new mapboxgl.Map({
     container: 'map',
@@ -19,77 +20,93 @@ var directions = new mapboxgl.Directions({
 });
 map.addControl(directions);
 
+var features = [];
+var watchID = null;
+
 
 function normalize(string) {
     return string.trim().toLowerCase();
 }
 
-function setStartLocation() {
-    // (33.974298, -117.328094)
-    // 33.973354, -117.328125
-    var defLatitude = 33.973354;
-    var defLongitude = -117.328094;
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function (position) {
-            latitude = position.coords.latitude;
-            longitude = position.coords.longitude;
-            directions.setOrigin([longitude, latitude]);
-        }, function () {
-            directions.setOrigin([defLongitude, defLatitude]);
-        });
-    }
-    else {
-        directions.setOrigin([defLongitude, defLatitude]);
-    }
+function searchFeature(features, feature_name) {
+	var feature = null;
+	features.some(function(entry) {
+		if (entry.properties.name == feature_name) {
+			feature = entry;
+			return true;
+		}
+	});
+	return feature;
 }
 
-map.on('load', function () {
-    //var features = map.querySourceFeatures("building-poi", { sourceLayer: "building-poi"});
-    var features = map.queryRenderedFeatures({layers: ['building-poi']});
-    var feature_names = [];
-    features.forEach(function (entry) {
-        feature_names.push(entry.properties.name)
-    });
-    var awesomplete = new Awesomplete(filterInput, {
-            list: feature_names,
-            minChars: 1,
-        }
-    );
+function setStartLocation() {
+    // (33.974298, -117.328094)
+	// 33.973354, -117.328125
+    var defLatitude = 33.973354;
+    var defLongitude = -117.328094;
+	var origin = searchFeature(features, originInput.value);
+	if (origin != null) {
+		directions.setOrigin(origin.geometry.coordinates);
+	}
+	else {
+		originInput.value = "";
+		if (navigator.geolocation) {
+            watchID = navigator.geolocation.watchPosition(function(position) {
+				latitude = position.coords.latitude;
+				longitude = position.coords.longitude;
+				directions.setOrigin([longitude, latitude]);
+			}, function() {
+				directions.setOrigin([defLongitude, defLatitude]);
+			});
+		}
+		else {
+			directions.setOrigin([defLongitude, defLatitude]);
+		}
+	}
+}
 
-    filterInput.addEventListener('awesomplete-selectcomplete', function (e) {
-        console.log(e.text.value);
-        features.some(function (entry) {
-            if (entry.properties.name == e.text.value) {
-                setStartLocation();
-                directions.setDestination(entry.geometry.coordinates);
-                return true;
-            }
-        });
-    });
+map.on('load', function() {
+	features = map.queryRenderedFeatures({layers: ['building-poi']});
+	var feature_names = [];
+	features.forEach(function(entry) {
+		feature_names.push(entry.properties.name)
+	});
+	var dest_awesomplete = new Awesomplete(destInput, {
+		list: feature_names,
+		minChars: 1,
+		}
+	);
+	var origin_awesomplete = new Awesomplete(originInput, {
+		list: feature_names,
+		minChars: 1
+	});
+			
+
+	destInput.addEventListener('awesomplete-selectcomplete', function(e) {
+		console.log(e.text.value);
+		var destination = searchFeature(features, e.text.value);
+		if (destination) {
+			setStartLocation();
+			directions.setDestination(destination.geometry.coordinates);
+		}
+	});
+
+	//destInput.addEventListener(
 
 
-    map.on('mousemove', function (e) {
-        var features = map.queryRenderedFeatures(e.point, {
-            layers: ['building-poi']
-        });
+	map.on('mousemove', function(e) {
+		var features = map.queryRenderedFeatures(e.point, {
+			layers: ['building-poi']
+		});
 
-        // change cursor style to indicate clickable
-        map.getCanvas().style.cursor = features.length ? 'pointer' : '';
-    });
+		// change cursor style to indicate clickable
+		map.getCanvas().style.cursor = features.length ? 'pointer' : '';
+	});
 
-    map.on('click', function (e) {
-        var features = map.queryRenderedFeatures(e.point, {
-            layers: ['building-poi']
-        });
-        if (features.length > 0) {
-            var feature = features[0]
-            setStartLocation();
-            directions.setDestination(feature.geometry.coordinates)
-        }
-        else {
-            setStartLocation();
-            directions.setDestination([e.lngLat.lng, e.lngLat.lat]);
-        }
-    });
+	map.on('click', function(e) {
+		setStartLocation();
+		directions.setDestination([e.lngLat.lng, e.lngLat.lat]);
+	});
 
 });
+
