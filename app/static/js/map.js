@@ -25,7 +25,7 @@ var directions = new mapboxgl.Directions({
 });
 map.addControl(directions);
 
-var features = [];
+var features = geojson.features;
 var watchID = null;
 
 
@@ -78,6 +78,12 @@ function setStartLocation() {
 	}
 }
 
+function setDestination(feature) {
+	//if (feature.files ...
+	directions.setDestination(destination.geometry.coordinates);
+}
+
+
 map.addControl(new mapboxgl.GeolocateControl());
 
 map.on('load', function() {
@@ -99,9 +105,6 @@ map.on('load', function() {
             "circle-color": "#007cbf"
 	    }
     });
-
-	features = map.queryRenderedFeatures({layers: ['building-poi']});
-    console.log(features[0].geometry);
 	var feature_names = [];
 	features.forEach(function(entry) {
 		feature_names.push(entry.properties.name)
@@ -122,7 +125,8 @@ map.on('load', function() {
 		var destination = searchFeature(features, e.text.value);
 		if (destination) {
 			setStartLocation();
-			directions.setDestination(destination.geometry.coordinates);
+			//directions.setDestination(destination.geometry.coordinates);
+			setDestination(destination);
 		}
 	});
 
@@ -131,7 +135,8 @@ map.on('load', function() {
 		var destination = searchFeature(features, destInput.value);
 		if (destination != null) {
 			setStartLocation();
-			directions.setDestination(destination.geometry.coordinates);
+			setDestination(destination);
+			//directions.setDestination(destination.geometry.coordinates);
 		}
 	});
 
