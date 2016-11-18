@@ -3,17 +3,6 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiamhvbGxpc3RlciIsImEiOiJjaXR6YXI4enEwYnpwMnhuM
 var socket2 = io.connect('http://' + document.domain + ':' + location.port);
 
 
-socket2.on('connect', function () {
-    if (navigator.geolocation) {
-        navigator.geolocation.watchPosition(function(position) {
-            latitude = position.coords.latitude;
-            longitude = position.coords.longitude;
-            setStartLocation()
-            socket2.emit("location", {lat:latitude,lon:longitude})
-        })
-    }
-
-});
 
 var destInput = document.getElementById('destination-input');
 var originInput = document.getElementById('origin-input');
@@ -93,6 +82,7 @@ map.addControl(new mapboxgl.GeolocateControl());
 
 map.on('load', function() {
     // Add 'point' for updating user's location
+
     map.addSource('location-point', {
         "type": "geojson",
         "data": {
@@ -109,6 +99,7 @@ map.on('load', function() {
             "circle-color": "#007cbf"
 	    }
     });
+
 	features = map.queryRenderedFeatures({layers: ['building-poi']});
     console.log(features[0].geometry);
 	var feature_names = [];
@@ -163,3 +154,25 @@ map.on('load', function() {
 
 });
 
+socket2.on('connect', function () {
+        window.setInterval(function() {
+            if (navigator.geolocation) {
+                navigator.geolocation.watchPosition(function(position) {
+                    var defLatitude = 33.973354;
+                    var defLongitude = -117.328094;
+
+                    latitude = position.coords.latitude;
+                    longitude = position.coords.longitude;
+
+                    if (!(Math.abs(latitude - defLatitude) < .1 && Math.abs(longitude - defLongitude) < .1)) {
+                        latitude = defLatitude;
+                        longitude = defLongitude;
+                    }
+
+                    directions.setOrigin([longitude, latitude])
+                    socket2.emit("location", {lat: latitude, lon: longitude})
+                })
+            }
+        }, 2000);
+
+});
