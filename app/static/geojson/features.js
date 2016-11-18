@@ -1,4 +1,4 @@
-﻿var geojson = {
+var geojson = {
   "features": [
     {
       "type": "Feature",
@@ -41,10 +41,11 @@
         {"number": 1501, "id": ["09"]},
         {"number": 1501, "id": ["10"]},
         {"number": 1503, "id": ["11"]},
-        {"number": 1503, "id": ["12"]}
+        {"number": 1503, "id": ["12"]},
       ],
-      "levels": false,
-      "file": "images/hmnss.svg",
+      "files": [
+        {"1": "images/hmnss.svg"},
+      ],
       "corner": {
         "latitude": 33.973213, 
         "longitude": -117.331612
@@ -64,12 +65,13 @@
       },
       "id": "355f9976d9aed39ceaf38bea96a42e64",
       "doors": [
-        {"id": "00", "latitude": 33.973935, "longitude": -117.327494}
+        {"id": "00", "latitude": 33.973935, "longitude": -117.327494},
       ],
       "rooms": [
         {"number": 3374, "id": ["00"]},
       ],
       "levels": false,
+      "floorplan": true,
       "file": "images/pierce.svg",
       "corner": {
         "latitude": 33.974687, 
@@ -88,7 +90,17 @@
         ],
         "type": "Point"
       },
-      "id": "3cd455e20f2c58b4f247d546e60689b2"
+      "id": "3cd455e20f2c58b4f247d546e60689b2",
+
+      "doors": [
+        {"id": "00", "latitude": 33.973960, "longitude": -117.328835},
+        {"id": "01", "latitude": 33.974422, "longitude": -117.328639},
+        {"id": "02", "latitude": 33.974236, "longitude": -117.328614},
+      ],
+      "rooms": [
+      ],
+      "files": [
+      ],
     },
     {
       "type": "Feature",
@@ -102,7 +114,20 @@
         ],
         "type": "Point"
       },
-      "id": "4312b41a1500e801a89cff1a4099b77e"
+      "id": "4312b41a1500e801a89cff1a4099b77e",
+      "doors": [
+        {"id": "00", "latitude": 33.973149, "longitude": -117.331003},
+        {"id": "01", "latitude": 33.975575, "longitude": -117.328233},
+      ],
+      "rooms": [
+      ],
+      "files": [
+        {"1": "images/unlh.svg"},
+      ],
+      "corner": {
+        "latitude": 33.975790,
+        "longitude": -117.328614
+      },
     },
     {
       "type": "Feature",
@@ -116,7 +141,20 @@
         ],
         "type": "Point"
       },
-      "id": "43c2c89957a5fab79db5295b5652820a"
+      "id": "43c2c89957a5fab79db5295b5652820a",
+      "doors": [
+        {"id": "00", "latitude": 33.973149, "longitude": -117.331003},
+        {"id": "01", "latitude": 33.975575, "longitude": -117.328233},
+      ],
+      "rooms": [
+      ],
+      "files": [
+        {"1": "images/unlh.svg"},
+      ],
+      "corner": {
+        "latitude": 33.975790,
+        "longitude": -117.328614
+      },
     },
     {
       "type": "Feature",
