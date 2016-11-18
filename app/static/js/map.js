@@ -2,6 +2,7 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiamhvbGxpc3RlciIsImEiOiJjaXR6YXI4enEwYnpwMnhuM
 
 var destInput = document.getElementById('destination-input');
 var originInput = document.getElementById('origin-input');
+var routeButton = document.getElementById('route-button');
 
 var map = new mapboxgl.Map({
     container: 'map',
@@ -31,7 +32,7 @@ function normalize(string) {
 function searchFeature(features, feature_name) {
 	var feature = null;
 	features.some(function(entry) {
-		if (entry.properties.name == feature_name) {
+		if (normalize(entry.properties.name) == normalize(feature_name)) {
 			feature = entry;
 			return true;
 		}
@@ -39,9 +40,11 @@ function searchFeature(features, feature_name) {
 	return feature;
 }
 
+/** Set start location and draw a single point at location **/
 function setStartLocation() {
     // (33.974298, -117.328094)
 	// 33.973354, -117.328125
+
     var defLatitude = 33.973354;
     var defLongitude = -117.328094;
 	var origin = searchFeature(features, originInput.value);
@@ -55,6 +58,17 @@ function setStartLocation() {
 				latitude = position.coords.latitude;
 				longitude = position.coords.longitude;
 				directions.setOrigin([longitude, latitude]);
+                map.getSource('location-point').setData({
+                      "type": "FeatureCollection",
+					  "features": [{
+						  "type": "Feature",
+						  "properties": { "name": "user-location" },
+						  "geometry": {
+							  "type": "Point",
+							  "coordinates": [ longitude, latitude ]
+						  }
+					  }]
+                });
 			}, function() {
 				directions.setOrigin([defLongitude, defLatitude]);
 			});
@@ -66,7 +80,25 @@ function setStartLocation() {
 }
 
 map.on('load', function() {
+    // Add 'point' for updating user's location
+    map.addSource('location-point', {
+        "type": "geojson",
+        "data": {
+            "type": "FeatureCollection",
+            "features": []
+        }
+    });
+    map.addLayer({
+		"id": "location",
+        "source": "location-point",
+        "type": "circle",
+        "paint": {
+            "circle-radius": 8,
+            "circle-color": "#007cbf"
+	    }
+    });
 	features = map.queryRenderedFeatures({layers: ['building-poi']});
+    console.log(features[0].geometry);
 	var feature_names = [];
 	features.forEach(function(entry) {
 		feature_names.push(entry.properties.name)
@@ -92,6 +124,13 @@ map.on('load', function() {
 	});
 
 	//destInput.addEventListener(
+	routeButton.addEventListener('click', function() {
+		var destination = searchFeature(features, destInput.value);
+		if (destination != null) {
+			setStartLocation();
+			directions.setDestination(destination.geometry.coordinates);
+		}
+	});
 
 
 	map.on('mousemove', function(e) {
@@ -105,7 +144,9 @@ map.on('load', function() {
 
 	map.on('click', function(e) {
 		setStartLocation();
+        console.log(e.lngLat);
 		directions.setDestination([e.lngLat.lng, e.lngLat.lat]);
+        console.log(directions.getDestination());
 	});
 
 });
