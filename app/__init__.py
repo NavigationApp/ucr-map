@@ -81,7 +81,10 @@ def get_users_dict(users, names):
 # todo implement get_friends: it should get friends based on fuzzy search
 @socketio.on('get_all_friends')
 def get_all_friends_event():
-    emit("my_friends", {f.get_id():f.get_name() for f in current_user.friended})
+    if current_user.is_authenticated:
+        emit("my_friends", {f.get_id():f.get_name() for f in current_user.friended})
+    else:
+        return False
 
 @socketio.on('search')
 def search_event(search):
