@@ -12,7 +12,7 @@
         ],
         "type": "Point"
       },
-      "id": "307057a6677b5b1056bb82de560b7f3d"
+      "id": "307057a6677b5b1056bb82de560b7f3d",
       "doors": [
         {"id": "00", "latitude": 33.973149, "longitude": -117.331003},
         {"id": "01", "latitude": 33.973149, "longitude": -117.330913},
@@ -62,7 +62,7 @@
         ],
         "type": "Point"
       },
-      "id": "355f9976d9aed39ceaf38bea96a42e64"
+      "id": "355f9976d9aed39ceaf38bea96a42e64",
       "doors": [
         {"id": "00", "latitude": 33.973935, "longitude": -117.327494}
       ],
