@@ -39,6 +39,7 @@ class User(db.Model):
                                secondaryjoin=(friends.c.friended_id == id),
                                backref=db.backref('friends', lazy='dynamic'),
                                lazy='dynamic')
+    location = {}
 
     def friend(self, user):
         if not self.is_friend(user):
