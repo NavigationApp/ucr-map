@@ -434,7 +434,6 @@ var geojson = {
         "br": {"latitude": 33.971009, "longitude": -117.327355},
       },
     },
-/*
     {
       "type": "Feature",
       "properties": {
@@ -449,16 +448,10 @@ var geojson = {
       },
       "id": "df5125f680da6025b2ea6b0f84f394f7",
       "doors": [
-        {"id": XX, "latitude": XXXXXXXX, "longitude": XXXXXXXX},
+        {"id": "00", "latitude": 33.973336, "longitude": -117.328179},
       ],
-      "rooms": [
-        {"number": XXXX, "ids": [XX, XX]},
-      ],
-      "files": [XX, XX, XX, XX],
-      "corners": {
-        "ul": {"latitude": XXXXXXXX, "longitude": XXXXXXXX},
-        "br": {"latitude": XXXXXXXX, "longitude": XXXXXXXX},
-      },
+      "rooms": [],
+      "files": ["", "", "", ""],
     },
     {
       "type": "Feature",
@@ -474,15 +467,29 @@ var geojson = {
       },
       "id": "fb02c640eb8a0b7c862da2c685065f36",
       "doors": [
-        {"id": XX, "latitude": XXXXXXXX, "longitude": XXXXXXXX},
+        {"id": "00", "latitude": 33.974471, "longitude": -117.330668},
+        {"id": "01", "latitude": 33.974476, "longitude": -117.330583},
+        {"id": "02", "latitude": 33.974476, "longitude": -117.330516},
+        {"id": "03", "latitude": 33.974588, "longitude": -117.330298},
+        {"id": "04", "latitude": 33.974596, "longitude": -117.330193},
+
       ],
       "rooms": [
-        {"number": XXXX, "ids": [XX, XX]},
+        {"number": "1130", "ids": ["00"]},
+        {"number": "1132", "ids": ["01"]},
+        {"number": "1134", "ids": ["02"]},
+        {"number": "1121", "ids": ["03"]},
+        {"number": "1125", "ids": ["03"]},
+        {"number": "2130", "ids": ["04"]},
+        {"number": "2132", "ids": ["04"]},
+        {"number": "2134", "ids": ["04"]},
+        {"number": "2136", "ids": ["04"]},
+        {"number": "2138", "ids": ["04"]},
       ],
-      "files": [XX, XX, XX, XX],
+      "files": ["", "images/ints_level1.svg", "images/ints_level2.svg", ""],
       "corners": {
-        "ul": {"latitude": XXXXXXXX, "longitude": XXXXXXXX},
-        "br": {"latitude": XXXXXXXX, "longitude": XXXXXXXX},
+        "ul": {"latitude": 33.975116, "longitude": -117.330802},
+        "br": {"latitude": 33.974477, "longitude": -117.330203},
       },
     },
     {
@@ -499,16 +506,10 @@ var geojson = {
       },
       "id": "e400066d804541d38b03d0374c3d0848",
       "doors": [
-        {"id": XX, "latitude": XXXXXXXX, "longitude": XXXXXXXX},
+        {"id": "00", "latitude": 33.978014, "longitude": -117.330567},
       ],
-      "rooms": [
-        {"number": XXXX, "ids": [XX, XX]},
-      ],
-      "files": [XX, XX, XX, XX],
-      "corners": {
-        "ul": {"latitude": XXXXXXXX, "longitude": XXXXXXXX},
-        "br": {"latitude": XXXXXXXX, "longitude": XXXXXXXX},
-      },
+      "rooms": [],
+      "files": ["", "", "", ""],
     },
     {
       "type": "Feature",
@@ -524,16 +525,10 @@ var geojson = {
       },
       "id": "c9d4802430f84dea289756322dc5d60d",
       "doors": [
-        {"id": XX, "latitude": XXXXXXXX, "longitude": XXXXXXXX},
+        {"id": "00", "latitude": 33.974072, "longitude": -117.33663},
       ],
-      "rooms": [
-        {"number": XXXX, "ids": [XX, XX]},
-      ],
-      "files": [XX, XX, XX, XX],
-      "corners": {
-        "ul": {"latitude": XXXXXXXX, "longitude": XXXXXXXX},
-        "br": {"latitude": XXXXXXXX, "longitude": XXXXXXXX},
-      },
+      "rooms": [],
+      "files": ["", "", "", ""],
     },
     {
       "type": "Feature",
@@ -549,16 +544,11 @@ var geojson = {
       },
       "id": "ac24bc9653d40382d5684dc757d4e1aa",
       "doors": [
-        {"id": XX, "latitude": XXXXXXXX, "longitude": XXXXXXXX},
+        {"id": "00", "latitude": 33.968825, "longitude": -117.330575},
       ],
       "rooms": [
-        {"number": XXXX, "ids": [XX, XX]},
       ],
-      "files": [XX, XX, XX, XX],
-      "corners": {
-        "ul": {"latitude": XXXXXXXX, "longitude": XXXXXXXX},
-        "br": {"latitude": XXXXXXXX, "longitude": XXXXXXXX},
-      },
+      "files": ["", "", "", ""],
     },
     {
       "type": "Feature",
@@ -574,16 +564,11 @@ var geojson = {
       },
       "id": "58b31d0376b534056c5cd2284d20dff8",
       "doors": [
-        {"id": XX, "latitude": XXXXXXXX, "longitude": XXXXXXXX},
+        {"id": "00", "latitude": 33.974853, "longitude":  -117.32002},
       ],
       "rooms": [
-        {"number": XXXX, "ids": [XX, XX]},
       ],
-      "files": [XX, XX, XX, XX],
-      "corners": {
-        "ul": {"latitude": XXXXXXXX, "longitude": XXXXXXXX},
-        "br": {"latitude": XXXXXXXX, "longitude": XXXXXXXX},
-      },
+      "files": ["", "", "", ""],
     },
     {
       "type": "Feature",
@@ -599,16 +584,11 @@ var geojson = {
       },
       "id": "1d4469e6b011618df4d9d17805a877c0",
       "doors": [
-        {"id": XX, "latitude": XXXXXXXX, "longitude": XXXXXXXX},
+        {"id": "00", "latitude": 33.969825, "longitude": -117.327586},
       ],
       "rooms": [
-        {"number": XXXX, "ids": [XX, XX]},
       ],
-      "files": [XX, XX, XX, XX],
-      "corners": {
-        "ul": {"latitude": XXXXXXXX, "longitude": XXXXXXXX},
-        "br": {"latitude": XXXXXXXX, "longitude": XXXXXXXX},
-      },
+      "files": ["", "", "", ""],
     },
     {
       "type": "Feature",
@@ -624,16 +604,11 @@ var geojson = {
       },
       "id": "10602a7d10c75e89778674b0c93cd326",
       "doors": [
-        {"id": XX, "latitude": XXXXXXXX, "longitude": XXXXXXXX},
+        {"id": "00", "latitude": 33.971657, "longitude": -117.334126},
       ],
       "rooms": [
-        {"number": XXXX, "ids": [XX, XX]},
       ],
-      "files": [XX, XX, XX, XX],
-      "corners": {
-        "ul": {"latitude": XXXXXXXX, "longitude": XXXXXXXX},
-        "br": {"latitude": XXXXXXXX, "longitude": XXXXXXXX},
-      },
+      "files": ["", "", "", ""],
     },
     {
       "type": "Feature",
@@ -649,16 +624,11 @@ var geojson = {
       },
       "id": "0fe2e17a33ea9decad8bdd968d7f996a",
       "doors": [
-        {"id": XX, "latitude": XXXXXXXX, "longitude": XXXXXXXX},
+        {"id": "00", "latitude": 33.976948, "longitude": -117.337917},
       ],
       "rooms": [
-        {"number": XXXX, "ids": [XX, XX]},
       ],
-      "files": [XX, XX, XX, XX],
-      "corners": {
-        "ul": {"latitude": XXXXXXXX, "longitude": XXXXXXXX},
-        "br": {"latitude": XXXXXXXX, "longitude": XXXXXXXX},
-      },
+      "files": ["", "", "", ""],
     },
     {
       "type": "Feature",
@@ -674,18 +644,12 @@ var geojson = {
       },
       "id": "0f37c3f5cc105b57074424ffe7fe0edd",
       "doors": [
-        {"id": XX, "latitude": XXXXXXXX, "longitude": XXXXXXXX},
+        {"id": "00", "latitude": 33.981288, "longitude": -117.332717},
       ],
       "rooms": [
-        {"number": XXXX, "ids": [XX, XX]},
       ],
-      "files": [XX, XX, XX, XX],
-      "corners": {
-        "ul": {"latitude": XXXXXXXX, "longitude": XXXXXXXX},
-        "br": {"latitude": XXXXXXXX, "longitude": XXXXXXXX},
-      },
+      "files": ["", "", "", ""],
     },
-*/
   ],
   "type": "FeatureCollection"
 };
