@@ -101,8 +101,8 @@ class Connection(db.Model):
 class Event(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     description = db.Column(db.String(255))
-    longitude = db.Column(db.Float(precision='3.8'))
-    latitude = db.Column(db.Float(precision='3.8'))
+    longitude = db.Column(db.Float(precision=8))
+    latitude = db.Column(db.Float(precision=8))
     start_datetime = db.Column(db.DateTime)
     end_datetime = db.Column(db.DateTime)
 
