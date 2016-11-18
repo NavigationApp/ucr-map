@@ -1,4 +1,4 @@
-﻿geojson_features = {
+var geojson = {
   "features": [
     {
       "type": "Feature",
@@ -345,7 +345,7 @@
         "type": "Point"
       },
       "id": "fb02c640eb8a0b7c862da2c685065f36"
-    }
+    },
     {
       "type": "Feature",
       "properties": {
@@ -460,4 +460,4 @@
     },
   ],
   "type": "FeatureCollection"
-}
+};
