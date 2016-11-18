@@ -8,6 +8,8 @@ var socket2 = io.connect('http://' + document.domain + ':' + location.port);
 var destInput = document.getElementById('destination-input');
 var originInput = document.getElementById('origin-input');
 var routeButton = document.getElementById('route-button');
+var upArrow = document.getElementById('arrow-up');
+var downArrow = document.getElementById('arrow-down');
 
 var map = new mapboxgl.Map({
     container: 'map',
@@ -28,6 +30,28 @@ map.addControl(directions);
 
 var features = geojson.features;
 var watchID = null;
+
+var picIndex;
+var pictures = [];
+
+function incrementPic() {
+	picIndex += 1;
+	document.getElementById("image_full").src = pictures[picIndex];
+	if (picIndex >= pictures.length || pictures[picIndex] != "") {
+		// disapear arrow
+		upArrow.style.visibility = "hidden";
+	}
+}
+
+function decrementPic(ind) {
+	picIndex -= 1;
+	document.getElementById("image_full").src = pictures[picIndex];
+	if (picIndex < 0 || pictures[picIndex] != "") {
+		// disapear arrow
+		downArrow.style.visibility = "hidden";
+	}
+
+}
 
 
 function normalize(string) {
@@ -104,14 +128,25 @@ function deg2rad(deg) {
 
 function setDestination(feature) {
 	console.log(feature.files);
-	//if (feature.files != null && feature.files.length > 0) {
-		//document.getElementById("popup-header").innerText = feature.properties.name;
-		//var button = document.getElementById("button_img");
-		//button.style.visibility = "visible";
-		//button.src = "/static/" + feature.files;
-		//button.style.background = "#fff";
-		//document.getElementById("full_image").src = "/static/" + feature.files;
-	//}
+	if (feature.files !== undefined && feature.files.length > 0) {
+		var floor = 0;
+		feature.files.forEach(function(entry) {
+			if (entry != "") {
+				picIndex = floor;
+				pictures = feature.files;
+				console.log(entry);
+				document.getElementById("popup-header").innerText = feature.properties.name + " (Floor " + floor + ")";
+				var button = document.getElementById("button_img");
+				button.style.visibility = "visible";
+				button.src = "/static/" + entry;
+				button.style.background = "#fff";
+				document.getElementById("full_image").src = "/static/" + feature.files;
+				if (floor < 4 && feature.files[floor+1] != "") {
+					document.getElementById("arrow-up").style.visibility = "visible";
+			}
+			floor += 1;
+		});
+	}
 	//room_popup = document.getElementById("room_popup");
 	//room_popup.style.visibility = "visible";
 	//room_popup.style.opacity = 1;
@@ -195,6 +230,14 @@ map.on('load', function() {
 			//directions.setDestination(destination.geometry.coordinates);
 		}
 	});
+
+	downArrow.addEventListenever('click', function() {
+		decrementPic();
+	});
+
+	upArrow.addEventListener('click', function() {
+		incrementPic();
+	}
 
 
 	map.on('mousemove', function(e) {
