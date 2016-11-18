@@ -8,36 +8,52 @@ from flask_sslify import SSLify
 from flask_sqlalchemy import SQLAlchemy
 from flask.ext.heroku import Heroku
 from flask.ext.social.datastore import SQLAlchemyConnectionDatastore
-from flask_security import Security, SQLAlchemyUserDatastore,login_user, roles_required
+from flask_security import Security, SQLAlchemyUserDatastore, login_user, roles_required
 from flask_security.core import current_user
 from flask_social.views import connect_handler
 from flask_socketio import SocketIO, emit
 from fuzzywuzzy import process
 from flask.ext.social.utils import get_connection_values_from_oauth_response
+import twitter
+
 app = Flask(__name__)
 heroku = Heroku()
 
 # Setting up SSL
-#sslify = SSLify(app)
+# sslify = SSLify(app)
 app.secret_key = os.environ.get('SECRET', 'DEV_SECRET')
 app.debug = False
 
 # Setting up database
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///../../flask_app.db')
 app.config['SQLALCHEMY_ECHO'] = False  # Too much overhead
-db = SQLAlchemy(app) # This is the main db connection that should be passed around
+db = SQLAlchemy(app)  # This is the main db connection that should be passed around
 
 # Setting up OAuth
 app.config['SOCIAL_GOOGLE'] = {
-                       'consumer_key': os.environ.get('GOOGLE_ID', "No ID"),
-                       'consumer_secret': os.environ.get('GOOGLE_SECRET', "No Secret")
-                      }
+    'consumer_key': os.environ.get('GOOGLE_ID', "No ID"),
+    'consumer_secret': os.environ.get('GOOGLE_SECRET', "No Secret")
+}
+
+# Setting up twitter api
+parking_screen_name = '@UCRTAPS'
+twitter_tokens = {}
+twitter_tokens['consumer_key'] = os.environ.get('TWITTER_CONSUMER_KEY')
+twitter_tokens['consumer_secret'] = os.environ.get('TWITTER_CONSUMER_SECRET')
+twitter_tokens['access_token_key'] = os.environ.get('TWITTER_ACCESS_TOKEN_KEY')
+twitter_tokens['access_token_secret'] = os.environ.get('TWITTER_ACCESS_TOKEN_SECRET')
+
+twitter_api = twitter.Api(consumer_key=twitter_tokens['consumer_key'],
+                          consumer_secret=twitter_tokens['consumer_secret'],
+                          access_token_key=twitter_tokens['access_token_key'],
+                          access_token_secret=twitter_tokens['access_token_secret'])
 
 # Initiating views
 from views import index, logout, dashboard
 
 # Setup Flask-Security
 from app.models import User, Role, Connection
+
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 app.security = Security(app, user_datastore)
 app.social = Social(app, SQLAlchemyConnectionDatastore(db, Connection))
@@ -49,6 +65,7 @@ async_mode = None
 if async_mode is None:
     try:
         import eventlet
+
         async_mode = 'eventlet'
     except ImportError:
         pass
@@ -56,6 +73,7 @@ if async_mode is None:
     if async_mode is None:
         try:
             from gevent import monkey
+
             async_mode = 'gevent'
         except ImportError:
             pass
@@ -67,24 +85,29 @@ if async_mode is None:
 
 if async_mode == 'eventlet':
     import eventlet
+
     eventlet.monkey_patch()
 elif async_mode == 'gevent':
     from gevent import monkey
+
     monkey.patch_all()
 
 socketio = SocketIO(app, async_mode=async_mode)
+
 
 def get_users_dict(users, names):
     for x in names:
         yield users.keys()[users.values().index(x[0])], x
 
+
 # todo implement get_friends: it should get friends based on fuzzy search
 @socketio.on('get_all_friends')
 def get_all_friends_event():
     if current_user.is_authenticated:
-        emit("my_friends", {f.get_id():f.get_name() for f in current_user.friended})
+        emit("my_friends", {f.get_id(): f.get_name() for f in current_user.friended})
     else:
         return False
+
 
 @socketio.on('location')
 def location_event(location):
@@ -93,15 +116,17 @@ def location_event(location):
     else:
         return False
 
+
 @socketio.on('search')
 def search_event(search):
     users = User.query.all()
-    users = {x.id:x.connections.full_name for x in users}
+    users = {x.id: x.connections.full_name for x in users}
 
     names = process.extract(search['search'], (users[key] for key in users), limit=10)
     names.sort(key=lambda x: x[1], reverse=True)
 
-    emit("names", {x:y for x,y in get_users_dict(users, names)})
+    emit("names", {x: y for x, y in get_users_dict(users, names)})
+
 
 @socketio.on('add')
 def add_event(add):
@@ -110,6 +135,7 @@ def add_event(add):
         current_user.friend(user_datastore.get_user(friend_id))
     else:
         return False
+
 
 @app.route('/dashboard/<id>/<role>')
 @roles_required('Admin')
@@ -129,11 +155,13 @@ def dashboard_delete(id):
     db.session.commit()
     return redirect(url_for("dashboard", user=current_user, users=User.query.all()))
 
+
 # Setting up new users
 @login_failed.connect_via(app)
 def on_login_failed(sender, provider, oauth_response):
     connection_values = get_connection_values_from_oauth_response(provider, oauth_response)
-    connection_values['display_name'] = connection_values['display_name']['givenName'] +" "+ connection_values['display_name']['familyName']
+    connection_values['display_name'] = connection_values['display_name']['givenName'] + " " + \
+                                        connection_values['display_name']['familyName']
     connection_values['full_name'] = connection_values['display_name']
     session['google_id'] = connection_values['provider_user_id']
     role = user_datastore.find_or_create_role("User")
@@ -145,4 +173,3 @@ def on_login_failed(sender, provider, oauth_response):
     login_user(user)
     db.session.commit()
     return render_template('index.html')
-

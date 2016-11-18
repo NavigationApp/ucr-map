@@ -12,3 +12,4 @@ fuzzywuzzy
 flask_socketio
 gevent
 gevent-websocket
+python-twitter==3.1
