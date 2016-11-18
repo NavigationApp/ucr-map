@@ -1,4 +1,5 @@
-mapboxgl.accessToken = 'pk.eyJ1IjoiamhvbGxpc3RlciIsImEiOiJjaXR6YXI4enEwYnpwMnhuMjcycGJhYnBhIn0.K5YOZULwqBY53i9M_l0tOA';
+var access_key = 'pk.eyJ1IjoiamhvbGxpc3RlciIsImEiOiJjaXR6YXI4enEwYnpwMnhuMjcycGJhYnBhIn0.K5YOZULwqBY53i9M_l0tOA';
+mapboxgl.accessToken = access_key;
 
 var socket2 = io.connect('http://' + document.domain + ':' + location.port);
 
@@ -78,10 +79,65 @@ function setStartLocation() {
 	}
 }
 
-function setDestination(feature) {
-	//if (feature.files ...
-	directions.setDestination(destination.geometry.coordinates);
+
+function distance(lat1,lon1,lat2,lon2) {
+  lat1 = parseFloat(lat1);
+  lon1 = parseFloat(lon1);
+  lat2 = parseFloat(lat2);
+  lon2 = parseFloat(lon2);
+  var R = 6371; // Radius of the earth in km
+  var dLat = deg2rad(lat2-lat1);  // deg2rad below
+  var dLon = deg2rad(lon2-lon1); 
+  var a = 
+    Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+    Math.sin(dLon/2) * Math.sin(dLon/2)
+    ; 
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+  var d = R * c; // Distance in km
+  return d;
 }
+
+function deg2rad(deg) {
+  return deg * (Math.PI/180)
+}
+
+function setDestination(feature) {
+	console.log(feature.files);
+	//if (feature.files != null && feature.files.length > 0) {
+		//document.getElementById("popup-header").innerText = feature.properties.name;
+		//var button = document.getElementById("button_img");
+		//button.style.visibility = "visible";
+		//button.src = "/static/" + feature.files;
+		//button.style.background = "#fff";
+		//document.getElementById("full_image").src = "/static/" + feature.files;
+	//}
+	//room_popup = document.getElementById("room_popup");
+	//room_popup.style.visibility = "visible";
+	//room_popup.style.opacity = 1;
+	var start = [feature.geometry.coordinates];
+	var dest = [feature.geometry.coordinates];
+	console.log(feature);
+	if (feature.doors != null) {
+		if (feature.doors.length > 1) {
+			dest = [feature.doors[0].longitude, feature.doors[0].latitude];
+			var doors = feature.doors;
+			var min = distance(start[1], start[0],  doors[1].latitude, doors[1].latitude);
+			feature.doors.forEach(function(door) {
+				var dist = distance(start[1], start[0], door.latitude, door.longitude);
+				console.log(dist);
+				if (dist < min) {
+					min = dist;
+					dest = [door.longitude, door.latitude];
+				}
+			});
+		}
+	}
+
+	directions.setDestination(dest);
+}
+
+
 
 
 map.addControl(new mapboxgl.GeolocateControl());
