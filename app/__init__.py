@@ -39,16 +39,16 @@ app.config['SOCIAL_GOOGLE'] = {
 parking_screen_name = '@UCRTAPS'
 try:
     twitter_tokens = {}
-    # twitter_tokens['consumer_key'] = os.environ.get('TWITTER_CONSUMER_KEY')
-    # twitter_tokens['consumer_secret'] = os.environ.get('TWITTER_CONSUMER_SECRET')
-    # twitter_tokens['access_token_key'] = os.environ.get('TWITTER_ACCESS_TOKEN_KEY')
-    # twitter_tokens['access_token_secret'] = os.environ.get('TWITTER_ACCESS_TOKEN_SECRET')
+    twitter_tokens['consumer_key'] = os.environ.get('TWITTER_CONSUMER_KEY')
+    twitter_tokens['consumer_secret'] = os.environ.get('TWITTER_CONSUMER_SECRET')
+    twitter_tokens['access_token_key'] = os.environ.get('TWITTER_ACCESS_TOKEN_KEY')
+    twitter_tokens['access_token_secret'] = os.environ.get('TWITTER_ACCESS_TOKEN_SECRET')
 
-    # Change keys later
-    twitter_tokens['consumer_key'] = 'K21xRXLb1vIpBMqIylxsoD7Tl'
-    twitter_tokens['consumer_secret'] = 'asTuTpudCvC70TBnycVBRHYv4vYcTEHS0yE8Kxbgwx80pQbSJ8'
-    twitter_tokens['access_token_key'] = '2783017040-kXHB6bsEhTvGaGgkeONNPbaF023wfURHr53ItRs'
-    twitter_tokens['access_token_secret'] = '88SpaVwYKh1XlY4o8WXtritdm4v0YqV8bkqTEHbfM6jlb'
+    # # Change keys later
+    # twitter_tokens['consumer_key'] = 'K21xRXLb1vIpBMqIylxsoD7Tl'
+    # twitter_tokens['consumer_secret'] = 'asTuTpudCvC70TBnycVBRHYv4vYcTEHS0yE8Kxbgwx80pQbSJ8'
+    # twitter_tokens['access_token_key'] = '2783017040-kXHB6bsEhTvGaGgkeONNPbaF023wfURHr53ItRs'
+    # twitter_tokens['access_token_secret'] = '88SpaVwYKh1XlY4o8WXtritdm4v0YqV8bkqTEHbfM6jlb'
 
     twitter_api = twitter.Api(consumer_key=twitter_tokens['consumer_key'],
                           consumer_secret=twitter_tokens['consumer_secret'],
