@@ -1,4 +1,15 @@
-oauth2client
 Flask
-gunicorn==19.4.5
+gunicorn==18.0.0
 Flask-SSLify
+flask-sqlalchemy
+flask-security
+Flask-Social
+oauth2client
+google-api-python-client
+flask-heroku
+psycopg2
+fuzzywuzzy
+flask_socketio
+gevent
+gevent-websocket
+python-twitter==3.1

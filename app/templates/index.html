@@ -1,155 +1,73 @@
 {% extends "base.html" %}
 
+{% block styles %}
+{{ super() }}
+<link rel='stylesheet'
+      href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v2.2.0/mapbox-gl-directions.css'
+      type='text/css'/>
+<link rel='stylesheet' href="{{url_for('static', filename='css/awesomplete.css')}}" type='text/css'/>
+<link rel='stylesheet' href="{{url_for('static', filename='css/custom.css')}}" type='text/css'/>
+{% endblock %}
+
 {% block content %}
 
-    <!-- Container -->
-    <div class="container-fluid" style="height: 100%">
+<!-- Container -->
+<div class="container-fluid" style="height: 100%">
 
-      <!-- Main Content-->
-        <div class="row">
+    <!-- Main Content-->
+    <div class="row">
         <div id="map" style="width: 100%; height: 100%; position: absolute;">
-<script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v2.2.0/mapbox-gl-directions.js'></script>
-<link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v2.2.0/mapbox-gl-directions.css' type='text/css' />
-        </div>
-<style>
-    .filter-ctrl {
-        position: absolute;
-        top: 60px;
-        left: 10px;
-        z-index: 1;
-        width: 180px;
-    }
 
-    .filter-ctrl input[type=text] {
-        font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-        width: 100%;
-        border: 0;
-        background-color: #fff;
-        height: 40px;
-        margin: 0;
-        color: rgba(0,0,0,.5);
-        padding: 10px;
-        box-shadow: 0 0 0 2px rgba(0,0,0,0.1);
-        border-radius: 3px;
-    }
-</style>
-<div id='map'></div>
-<div class='filter-ctrl'>
-    <input id='filter-input' type='text' name='filter' placeholder='Filter by name' />
+            <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v2.2.0/mapbox-gl-directions.js'></script>
+            <script src="{{url_for('static', filename='js/awesomplete.js')}}" async></script>
+        </div>
+
+        <div id='map'></div>
+        <div class='destinationSearchStyle'>
+            <input id='destination-input' type='text' name='destination' placeholder='Destination'/>
+			<button class="button" id="route-button">Route!</button>
+       </div>
+        <div class='originSearchStyle'>
+            <input id='origin-input' type='text' name='origin' placeholder='Current Location'/>
+       </div>
+
+	   <a  class='img_button' href="#img_popup">
+		   <img width=75 height=75 id='button_img'  src=''>
+		</a>
+	   <div id="img_popup" class="overlay">
+		   <div class="popup">
+			   <h2 id="popup-header"></h2>
+			   <a class="close" href='#'>x</a>
+				<div id="floor-up" class="arrow-up"></div>
+				<div id="floor-down" class="arrow-down"></div>
+			   <div class="content">
+				   <img id='full_image' src=''>
+				</div>
+			</div>
+		</div>
+
+	<!-- The Modal -->
+	<div id="myModal2" class="modal">
+
+	  <!-- Modal content -->
+	  <div class="modal-content">
+		<span id="close_room" class="close">x</span>
+		<input id="room_num" type="text" placeholder='Room #' />
+		<button id="room_btn" class="button2">Go!</button>
+	  </div>
+
+	</div>
+
+
+
+    </div>
 </div>
 
-<script>
-mapboxgl.accessToken = 'pk.eyJ1IjoiamhvbGxpc3RlciIsImEiOiJjaXR6YXI4enEwYnpwMnhuMjcycGJhYnBhIn0.K5YOZULwqBY53i9M_l0tOA';
+</div> <!-- /container -->
+{% endblock %}
 
-var filterInput = document.getElementById('filter-input');
-
-// set bounds to UCR only
-var bounds = [
-    [-117.335715, 33.966891],  // Southwest coords
-    [-117.320575, 33.980049] // Northeast coords
-];
-        
-var map = new mapboxgl.Map({
-    container: 'map',
-    style: 'mapbox://styles/jhollister/citzb2fdj00ef2hlbnrqk2fw8',
-    center: [-117.325, 33.973],
-    zoom: 16,
-    maxBounds: bounds
-});
-
-var directions = new mapboxgl.Directions({
-    profile: 'walking',
-	interactive: false,
-    controls: {
-        inputs: false,
-        instructions: true
-    }
-});
-map.addControl(directions);
-//map.addControl(new mapboxgl.GeolocateControl({position: 'top-right'})); // position is optional
-
-function normalize(string) {
-	return string.trim().toLowerCase();
-}
-
-function setStartLocation() {
-    // (33.974298, -117.328094)
-	// 33.973354, -117.328125
-    var defLatitude = 33.973354;
-    var defLongitude = -117.328094;
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-            latitude = position.coords.latitude;
-            longitude = position.coords.longitude;
-            directions.setOrigin([longitude, latitude]);
-        }, function() {
-			directions.setOrigin([defLongitude, defLatitude]);
-		});
-	}
-    else {
-        directions.setOrigin([defLongitude, defLatitude]);
-    }
-}
-
-map.on('load', function() {
-	var features = map.queryRenderedFeatures({layers:['building-poi']});
-
-	map.on('mousemove', function(e) {
-		var features = map.queryRenderedFeatures(e.point, {
-			layers: ['building-poi']
-		});
-
-		// change cursor style to indicate clickable
-		map.getCanvas().style.cursor = features.length ? 'pointer' : '';
-	});
-
-	map.on('click', function(e) {
-		var features = map.queryRenderedFeatures(e.point, {
-			layers: ['building-poi']
-		});
-        if (features.length > 0) {
-			var feature = features[0]
-            setStartLocation();
-			directions.setDestination(feature.geometry.coordinates)
-		}
-        else {
-			setStartLocation();
-			directions.setDestination([e.lngLat.lng, e.lngLat.lat]);
-        }
-	});
-
-	filterInput.addEventListener('keyup', function(e) {
-		// hide buildings that match input
-		var value = e.target.value.trim().toLowerCase();
-
-		// filter visible features that don't match input value
-		var filtered = features.filter(function(feature) {
-			var name = normalize(feature.properties.name);
-            return name.indexOf(value) > -1;
-        });
-
-
-        map.setFilter('building-poi', ['in', 'name'].concat(filtered.map(function(feature) {
-            return feature.properties.name;
-        })));
-
-//        if (filtered.length == 1) {
-//			var feature = filtered[0];
-//			directions.setOrigin([-117.321044, 33.974737]);
-//			directions.setDestination(feature.geometry.coordinates);
- //       }
-
-    });
-
-});
-
-
-
-</script>
-        </div>
-      </div>
-
-
-
-    </div> <!-- /container -->
+{% block scripts %}
+{{ super() }}
+<script src="{{url_for('static', filename='geojson/features.js')}}" async></script>
+<script src="{{url_for('static', filename='js/map.js')}}" async></script>
 {% endblock %}

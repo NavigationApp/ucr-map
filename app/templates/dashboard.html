@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+    <table class="table table-striped">
+        <tr>
+            <th>User ID</th>
+            <th>Name</th>
+            <th>Options</th>
+        </tr>
+        {% for u in users %}
+            <tr>
+                <th>
+                    {{ u.connections.user_id }}
+                </th>
+                <th>
+                    {{ u.connections.full_name }}
+                </th>
+                <th>
+                    <!-- Single button -->
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {% if u.roles %} {{ u.roles[0].name }} {% else %} Action {% endif %} <span class="caret"></span>
+                      </button>
+                      <ul class="dropdown-menu">
+                            <li class="dropdown-header">Update Role</li>
+                            <li><a href="/dashboard/{{ u.connections.user_id }}/Admin">Admin</a></li>
+                            <li><a href="/dashboard/{{ u.connections.user_id }}/User">User</a></li>
+                            <li class="dropdown-header">Danger Zone</li>
+                            <li><a href="/dashboard/delete/{{ u.connections.user_id }}">Delete</a></li>
+                      </ul>
+                    </div>
+                </th>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
