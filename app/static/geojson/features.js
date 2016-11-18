@@ -228,15 +228,25 @@ var geojson = {
       },
       "id": "89224e4df5b6ac92f95f12b1aaac806a",
       "doors": [
-        {"id": XX, "latitude": XXXXXXXX, "longitude": XXXXXXXX},
+        {"id": 00, "latitude": 33.973054, "longitude": -117.329005},
+        {"id": 01, "latitude": 33.972868, "longitude": -117.329309},
+        {"id": 02, "latitude": 33.972864, "longitude": -117.328571},
+        {"id": 03, "latitude": 33.972947, "longitude": -117.329018},
+        {"id": 04, "latitude": 33.972325, "longitude": -117.329311},
+        {"id": 05, "latitude": 33.972336, "longitude": -117.328567},
       ],
       "rooms": [
-        {"number": XXXX, "ids": [XX, XX]},
+        {"number": "1000", "ids": ["00"]},
+        {"number": "1117", "ids": ["01", "02", "03"]},
+        {"number": "1111", "ids": ["01", "02", "03"]},
+        {"number": "1101", "ids": ["01", "02", "03"]},
+        {"number": "2141", "ids": ["01", "02", "03"]}
+        {"number": "2240", "ids": ["04", "05"]}
       ],
-      "files": [XX, XX, XX, XX],
+      "files": ["", "images/watkins_level1.svg", "images/watkins_level2.svg", ""],
       "corners": {
-        "ul": {"latitude": XXXXXXXX, "longitude": XXXXXXXX},
-        "br": {"latitude": XXXXXXXX, "longitude": XXXXXXXX},
+        "ul": {"latitude": 33.973269, "longitude": -117.329326},
+        "br": {"latitude": 33.972223, "longitude": -117.328545},
       },
     },
     {
@@ -253,17 +263,32 @@ var geojson = {
       },
       "id": "8a883e493bb365baf31160edb3c3e8d9",
       "doors": [
-        {"id": XX, "latitude": XXXXXXXX, "longitude": XXXXXXXX},
+        {"id": 00, "latitude": 33.973161, "longitude": -117.329740},
+        {"id": 01, "latitude": 33.972435, "longitude": -117.329772},
       ],
       "rooms": [
-        {"number": XXXX, "ids": [XX, XX]},
+        {"number": "1358", "ids": ["00"]},
+        {"number": "1340", "ids": ["00"]},
+        {"number": "1102", "ids": ["01"]},
+        {"number": "2339", "ids": ["00"]},
+        {"number": "2355", "ids": ["00"]},
+        {"number": "2361", "ids": ["00"]},
+        {"number": "2365", "ids": ["00"]},
+        {"number": "2351", "ids": ["00"]},
+        {"number": "2343", "ids": ["00"]},
+        {"number": "2344", "ids": ["00"]},
+        {"number": "2360", "ids": ["00"]},
+        {"number": "2356", "ids": ["00"]},
+        {"number": "2340", "ids": ["00"]},
+        {"number": "2212", "ids": ["00"]},
       ],
-      "files": [XX, XX, XX, XX],
+      "files": ["", "images/sproul_level1.svg", "images/sproul_level2.svg", ""],
       "corners": {
-        "ul": {"latitude": XXXXXXXX, "longitude": XXXXXXXX},
-        "br": {"latitude": XXXXXXXX, "longitude": XXXXXXXX},
+        "ul": {"latitude": 33.973220, "longitude": -117.330310},
+        "br": {"latitude": 33.972376, "longitude": -117.329448},
       },
     },
+/*
     {
       "type": "Feature",
       "properties": {
@@ -489,7 +514,7 @@ var geojson = {
         "br": {"latitude": XXXXXXXX, "longitude": XXXXXXXX},
       },
     },
-        {
+    {
       "type": "Feature",
       "properties": {
         "name": "Lot 32"
@@ -514,7 +539,7 @@ var geojson = {
         "br": {"latitude": XXXXXXXX, "longitude": XXXXXXXX},
       },
     },
-        {
+    {
       "type": "Feature",
       "properties": {
         "name": "Lot 13"
@@ -539,7 +564,7 @@ var geojson = {
         "br": {"latitude": XXXXXXXX, "longitude": XXXXXXXX},
       },
     },
-        {
+    {
       "type": "Feature",
       "properties": {
         "name": "Lot 6"
@@ -564,7 +589,7 @@ var geojson = {
         "br": {"latitude": XXXXXXXX, "longitude": XXXXXXXX},
       },
     },
-        {
+    {
       "type": "Feature",
       "properties": {
         "name": "Lot 30"
@@ -589,7 +614,7 @@ var geojson = {
         "br": {"latitude": XXXXXXXX, "longitude": XXXXXXXX},
       },
     },
-        {
+    {
       "type": "Feature",
       "properties": {
         "name": "University Village UV Theaters"
@@ -614,7 +639,7 @@ var geojson = {
         "br": {"latitude": XXXXXXXX, "longitude": XXXXXXXX},
       },
     },
-        {
+    {
       "type": "Feature",
       "properties": {
         "name": "Lot 26"
@@ -639,6 +664,7 @@ var geojson = {
         "br": {"latitude": XXXXXXXX, "longitude": XXXXXXXX},
       },
     },
+*/
   ],
   "type": "FeatureCollection"
 };

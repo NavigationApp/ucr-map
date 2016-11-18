@@ -37,16 +37,19 @@ app.config['SOCIAL_GOOGLE'] = {
 
 # Setting up twitter api
 parking_screen_name = '@UCRTAPS'
-twitter_tokens = {}
-twitter_tokens['consumer_key'] = os.environ.get('TWITTER_CONSUMER_KEY')
-twitter_tokens['consumer_secret'] = os.environ.get('TWITTER_CONSUMER_SECRET')
-twitter_tokens['access_token_key'] = os.environ.get('TWITTER_ACCESS_TOKEN_KEY')
-twitter_tokens['access_token_secret'] = os.environ.get('TWITTER_ACCESS_TOKEN_SECRET')
+try:
+    twitter_tokens = {}
+    twitter_tokens['consumer_key'] = os.environ.get('TWITTER_CONSUMER_KEY')
+    twitter_tokens['consumer_secret'] = os.environ.get('TWITTER_CONSUMER_SECRET')
+    twitter_tokens['access_token_key'] = os.environ.get('TWITTER_ACCESS_TOKEN_KEY')
+    twitter_tokens['access_token_secret'] = os.environ.get('TWITTER_ACCESS_TOKEN_SECRET')
 
-twitter_api = twitter.Api(consumer_key=twitter_tokens['consumer_key'],
+    twitter_api = twitter.Api(consumer_key=twitter_tokens['consumer_key'],
                           consumer_secret=twitter_tokens['consumer_secret'],
                           access_token_key=twitter_tokens['access_token_key'],
                           access_token_secret=twitter_tokens['access_token_secret'])
+except:
+    twitter_api = None
 
 # Initiating views
 from views import index, logout, dashboard
