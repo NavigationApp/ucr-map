@@ -143,17 +143,39 @@
       },
       "id": "43c2c89957a5fab79db5295b5652820a",
       "doors": [
-        {"id": "00", "latitude": 33.973149, "longitude": -117.331003},
-        {"id": "01", "latitude": 33.975575, "longitude": -117.328233},
+        {"id": "00", "latitude": 33.975558, "longitude": -117.326302},
+        {"id": "01", "latitude": 33.975560, "longitude": -117.325730},
+        {"id": "02", "latitude": 33.975350, "longitude": -117.325725},
+        {"id": "03", "latitude": 33.975151, "longitude": -117.325738},
+        {"id": "04", "latitude": 33.975150, "longitude": -117.326272},
+        {"id": "05", "latitude": 33.975357, "longitude": -117.326301},
+        {"id": "06", "latitude": 33.975167, "longitude": -117.325695},
+        {"id": "07", "latitude": 33.975018, "longitude": -117.325911},
+        {"id": "08", "latitude": 33.975018, "longitude": -117.325980},
+        {"id": "09", "latitude": 33.975018, "longitude": -117.326053},
+        {"id": "10", "latitude": 33.975018, "longitude": -117.326156},
       ],
       "rooms": [
+        {"number": 103, id: ["00", "01", "02", "05"]},
+        {"number": 127, id: ["02", "03", "04", "05"]},
+        {"number": 129, id: ["02", "03", "04", "05"]},
+        {"number": 132, id: ["02", "03", "04", "05"]},
+        {"number": 133, id: ["02", "03", "04", "05"]},
+        {"number": 135, id: ["02", "03", "04", "05"]},
+        {"number": 136, id: ["02", "03", "04", "05"]},
+        {"number": 138, id: ["06"]},
+        {"number": 139, id: ["07"]},
+        {"number": 141, id: ["08"]},
+        {"number": 142, id: ["09"]},
+        {"number": 143, id: ["10"]},
+
       ],
       "files": [
-        {"1": "images/unlh.svg"},
+        {"1": "images/chung.svg"},
       ],
       "corner": {
-        "latitude": 33.975790,
-        "longitude": -117.328614
+        "latitude": 33.975735,
+        "longitude": -117.326395
       },
     },
     {
