@@ -41,5 +41,6 @@
 
 {% block scripts %}
 {{ super() }}
+<script src="{{url_for('static', filename='geojson/features.js')}}" async></script>
 <script src="{{url_for('static', filename='js/map.js')}}" async></script>
 {% endblock %}

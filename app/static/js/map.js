@@ -21,7 +21,7 @@ var directions = new mapboxgl.Directions({
 });
 map.addControl(directions);
 
-var features = [];
+var features = geojson.features;
 var watchID = null;
 
 
@@ -97,8 +97,8 @@ map.on('load', function() {
             "circle-color": "#007cbf"
 	    }
     });
-	features = map.queryRenderedFeatures({layers: ['building-poi']});
-    console.log(features[0].geometry);
+	//features = map.queryRenderedFeatures({layers: ['building-poi']});
+	console.log(features);
 	var feature_names = [];
 	features.forEach(function(entry) {
 		feature_names.push(entry.properties.name)
