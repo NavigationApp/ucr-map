@@ -89,6 +89,12 @@ function setStartLocation() {
 	}
 }
 
+function setDestination(feature) {
+	//if (feature.files ...
+	directions.setDestination(destination.geometry.coordinates);
+}
+
+
 map.addControl(new mapboxgl.GeolocateControl());
 
 map.on('load', function() {
@@ -131,7 +137,8 @@ map.on('load', function() {
 		var destination = searchFeature(features, e.text.value);
 		if (destination) {
 			setStartLocation();
-			directions.setDestination(destination.geometry.coordinates);
+			//directions.setDestination(destination.geometry.coordinates);
+			setDestination(destination);
 		}
 	});
 
@@ -140,7 +147,8 @@ map.on('load', function() {
 		var destination = searchFeature(features, destInput.value);
 		if (destination != null) {
 			setStartLocation();
-			directions.setDestination(destination.geometry.coordinates);
+			setDestination(destination);
+			//directions.setDestination(destination.geometry.coordinates);
 		}
 	});
 
