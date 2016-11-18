@@ -8,8 +8,8 @@ var socket2 = io.connect('http://' + document.domain + ':' + location.port);
 var destInput = document.getElementById('destination-input');
 var originInput = document.getElementById('origin-input');
 var routeButton = document.getElementById('route-button');
-var upArrow = document.getElementById('arrow-up');
-var downArrow = document.getElementById('arrow-down');
+var upArrow = document.getElementById('floor-up');
+var downArrow = document.getElementById('floor-down');
 
 var map = new mapboxgl.Map({
     container: 'map',
@@ -36,7 +36,8 @@ var pictures = [];
 
 function incrementPic() {
 	picIndex += 1;
-	document.getElementById("image_full").src = pictures[picIndex];
+	document.getElementById("full_image").src = "/static/" + pictures[picIndex];
+	downArrow.style.visibility = "visible";
 	if (picIndex >= pictures.length || pictures[picIndex] != "") {
 		// disapear arrow
 		upArrow.style.visibility = "hidden";
@@ -45,7 +46,8 @@ function incrementPic() {
 
 function decrementPic(ind) {
 	picIndex -= 1;
-	document.getElementById("image_full").src = pictures[picIndex];
+	document.getElementById("full_image").src = "/static/" + pictures[picIndex];
+	upArrow.style.visibility = "visible";
 	if (picIndex < 0 || pictures[picIndex] != "") {
 		// disapear arrow
 		downArrow.style.visibility = "hidden";
@@ -130,7 +132,7 @@ function setDestination(feature) {
 	console.log(feature.files);
 	if (feature.files !== undefined && feature.files.length > 0) {
 		var floor = 0;
-		feature.files.forEach(function(entry) {
+		feature.files.some(function(entry) {
 			if (entry != "") {
 				picIndex = floor;
 				pictures = feature.files;
@@ -140,36 +142,62 @@ function setDestination(feature) {
 				button.style.visibility = "visible";
 				button.src = "/static/" + entry;
 				button.style.background = "#fff";
-				document.getElementById("full_image").src = "/static/" + feature.files;
-				if (floor < 4 && feature.files[floor+1] != "") {
-					document.getElementById("arrow-up").style.visibility = "visible";
+				document.getElementById("full_image").src = "/static/" + entry;
+				downArrow.style.visibility = "hidden";
+
+				if (floor < 3 && feature.files[floor+1] != "") {
+					document.getElementById("floor-up").style.visibility = "visible";
+				}
+				else {
+					upArrow.style.visibility = "hidden";
+				}
+				return true;
 			}
 			floor += 1;
 		});
 	}
-	//room_popup = document.getElementById("room_popup");
-	//room_popup.style.visibility = "visible";
-	//room_popup.style.opacity = 1;
-	var start = [feature.geometry.coordinates];
-	var dest = [feature.geometry.coordinates];
-	console.log(feature);
-	if (feature.doors != null) {
-		if (feature.doors.length > 1) {
-			dest = [feature.doors[0].longitude, feature.doors[0].latitude];
-			var doors = feature.doors;
-			var min = distance(start[1], start[0],  doors[1].latitude, doors[1].latitude);
-			feature.doors.forEach(function(door) {
-				var dist = distance(start[1], start[0], door.latitude, door.longitude);
-				console.log(dist);
-				if (dist < min) {
-					min = dist;
-					dest = [door.longitude, door.latitude];
+	var dest = feature.geometry.coordinates;
+	var room_popup = document.getElementById("myModal");
+	room_popup.style.display = "block";
+	document.getElementById("room_btn").addEventListener('click', function() {
+		room_num = document.getElementById("room_num").value;
+		room_popup.style.display = "none";
+		console.log("Room #" + room_num);
+		if (feature.rooms !== undefined) {
+			feature.rooms.forEach(function(room) {
+				console.log(room_num)
+				if (room.number.toString() == room_num) {
+					feature.doors.forEach(function(door) {
+						if (door.id[0] == room.id) {
+							dest = [door.longitude, door.latitude];
+							console.log("found a correct door to room");
+						}
+					});
 				}
 			});
 		}
-	}
+		console.log("Destination: " + dest);
 
-	directions.setDestination(dest);
+		directions.setDestination(dest);
+	});
+
+	//var start = directions.getOrigin();
+	//console.log(feature);
+	//if (feature.doors != null) {
+		//if (feature.doors.length > 1) {
+			//dest = [feature.doors[0].longitude, feature.doors[0].latitude];
+			//var doors = feature.doors;
+			//var min = distance(start[1], start[0],  doors[1].latitude, doors[1].latitude);
+			//feature.doors.forEach(function(door) {
+				//var dist = distance(start[1], start[0], door.latitude, door.longitude);
+				//console.log(dist);
+				//if (dist < min) {
+					//min = dist;
+					//dest = [door.longitude.toString(), door.latitude.toString()];
+				//}
+			//});
+		//}
+	//}
 }
 
 
@@ -231,13 +259,17 @@ map.on('load', function() {
 		}
 	});
 
-	downArrow.addEventListenever('click', function() {
+	downArrow.addEventListener('click', function() {
 		decrementPic();
 	});
 
 	upArrow.addEventListener('click', function() {
 		incrementPic();
-	}
+	});
+
+	document.getElementById('close_room').addEventListener('click', function() {
+		document.getElementById('myModal').style.display = "none";
+	});
 
 
 	map.on('mousemove', function(e) {

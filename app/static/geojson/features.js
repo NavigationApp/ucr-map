@@ -240,7 +240,7 @@ var geojson = {
         {"number": "1117", "ids": ["01", "02", "03"]},
         {"number": "1111", "ids": ["01", "02", "03"]},
         {"number": "1101", "ids": ["01", "02", "03"]},
-        {"number": "2141", "ids": ["01", "02", "03"]}
+        {"number": "2141", "ids": ["01", "02", "03"]},
         {"number": "2240", "ids": ["04", "05"]}
       ],
       "files": ["", "images/watkins_level1.svg", "images/watkins_level2.svg", ""],
