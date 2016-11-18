@@ -79,7 +79,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name": "Highlander Union Building"
+        "name": "Highlander Union Building (HUB)"
       },
       "geometry": {
         "coordinates": [
@@ -93,7 +93,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name": "University Lecture Hall"
+        "name": "University Lecture Hall (UNLH)"
       },
       "geometry": {
         "coordinates": [
@@ -286,6 +286,118 @@
       },
       "id": "fb02c640eb8a0b7c862da2c685065f36"
     }
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Lot 24"
+      },
+      "geometry": {
+        "coordinates": [
+          -117.330567,
+          33.978014
+        ],
+        "type": "Point"
+      },
+      "id": "e400066d804541d38b03d0374c3d0848"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Lot 51"
+      },
+      "geometry": {
+        "coordinates": [
+          -117.33663,
+          33.974072
+        ],
+        "type": "Point"
+      },
+      "id": "c9d4802430f84dea289756322dc5d60d"
+    },
+        {
+      "type": "Feature",
+      "properties": {
+        "name": "Lot 32"
+      },
+      "geometry": {
+        "coordinates": [
+          -117.330575,
+          33.968825
+        ],
+        "type": "Point"
+      },
+      "id": "ac24bc9653d40382d5684dc757d4e1aa"
+    },
+        {
+      "type": "Feature",
+      "properties": {
+        "name": "Lot 13"
+      },
+      "geometry": {
+        "coordinates": [
+          -117.32002,
+          33.974853
+        ],
+        "type": "Point"
+      },
+      "id": "58b31d0376b534056c5cd2284d20dff8"
+    },
+        {
+      "type": "Feature",
+      "properties": {
+        "name": "Lot 6"
+      },
+      "geometry": {
+        "coordinates": [
+          -117.327586,
+          33.969825
+        ],
+        "type": "Point"
+      },
+      "id": "1d4469e6b011618df4d9d17805a877c0"
+    },
+        {
+      "type": "Feature",
+      "properties": {
+        "name": "Lot 30"
+      },
+      "geometry": {
+        "coordinates": [
+          -117.334126,
+          33.971657
+        ],
+        "type": "Point"
+      },
+      "id": "10602a7d10c75e89778674b0c93cd326"
+    },
+        {
+      "type": "Feature",
+      "properties": {
+        "name": "University Village UV Theaters"
+      },
+      "geometry": {
+        "coordinates": [
+          -117.337917,
+          33.976948
+        ],
+        "type": "Point"
+      },
+      "id": "0fe2e17a33ea9decad8bdd968d7f996a"
+    },
+        {
+      "type": "Feature",
+      "properties": {
+        "name": "Lot 26"
+      },
+      "geometry": {
+        "coordinates": [
+          -117.332717,
+          33.981288
+        ],
+        "type": "Point"
+      },
+      "id": "0f37c3f5cc105b57074424ffe7fe0edd"
+    },
   ],
   "type": "FeatureCollection"
 }
