@@ -86,6 +86,13 @@ def get_all_friends_event():
     else:
         return False
 
+@socketio.on('location')
+def location_event(location):
+    if current_user.is_authenticated:
+        current_user.location = location
+    else:
+        return False
+
 @socketio.on('search')
 def search_event(search):
     users = User.query.all()

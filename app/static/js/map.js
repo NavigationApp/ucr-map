@@ -1,5 +1,20 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoiamhvbGxpc3RlciIsImEiOiJjaXR6YXI4enEwYnpwMnhuMjcycGJhYnBhIn0.K5YOZULwqBY53i9M_l0tOA';
 
+var socket2 = io.connect('http://' + document.domain + ':' + location.port);
+
+
+socket2.on('connect', function () {
+    if (navigator.geolocation) {
+        navigator.geolocation.watchPosition(function(position) {
+            latitude = position.coords.latitude;
+            longitude = position.coords.longitude;
+            setStartLocation()
+            socket2.emit("location", {lat:latitude,lon:longitude})
+        })
+    }
+
+});
+
 var destInput = document.getElementById('destination-input');
 var originInput = document.getElementById('origin-input');
 var routeButton = document.getElementById('route-button');
@@ -57,18 +72,13 @@ function setStartLocation() {
             watchID = navigator.geolocation.watchPosition(function(position) {
 				latitude = position.coords.latitude;
 				longitude = position.coords.longitude;
-				directions.setOrigin([longitude, latitude]);
-                map.getSource('location-point').setData({
-                      "type": "FeatureCollection",
-					  "features": [{
-						  "type": "Feature",
-						  "properties": { "name": "user-location" },
-						  "geometry": {
-							  "type": "Point",
-							  "coordinates": [ longitude, latitude ]
-						  }
-					  }]
-                });
+
+                if(Math.abs(latitude - defLatitude) < .1 && Math.abs(longitude - defLongitude) < .1) {
+                    directions.setOrigin([longitude, latitude]);
+                } else {
+                    directions.setOrigin([defLongitude, defLatitude]);
+                }
+
 			}, function() {
 				directions.setOrigin([defLongitude, defLatitude]);
 			});
@@ -78,6 +88,8 @@ function setStartLocation() {
 		}
 	}
 }
+
+map.addControl(new mapboxgl.GeolocateControl());
 
 map.on('load', function() {
     // Add 'point' for updating user's location
