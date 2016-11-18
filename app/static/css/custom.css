@@ -45,6 +45,31 @@
 	transform: translateY(4px);
 }
 
+.button {
+	position: relative;
+	/*top: 30px;*/
+	/*left: -75px;*/
+	display: inline-block;
+	padding: 4px 10px;
+	font-size: 12px;
+	cursor: pointer;
+	text-align: center;
+	text-decoration: none;
+	outline: none;
+	color: #fff;
+	background-color: #008CBA;
+	border: none;
+	border-radius: 15px;
+	box-shadow: 0 4px #999;
+}
+
+.button:hover {background-color: #006687}
+
+.button:active {
+	background-color: #008CBA;
+	box-shadow: 0 5px #666;
+	transform: translateY(4px);
+}
 
 .overlay {
 	position:absolute;
@@ -54,9 +79,9 @@
 	right: 0;
 	background: rgba(0, 0, 0, 0.7);
 	transition: opacity 500ms;
-	visibility: hidden;
-	opacity: 0;
+	/*opacity: 0;*/
 	z-index: 5;
+	display: none;
 }
 
 .img_button {
@@ -71,8 +96,9 @@
 }
 
 .overlay:target {
-	visibility: visible;
-	opacity: 1;
+	/*visibility: visible;*/
+	display: block;
+	/*opacity: 1;*/
 }
 
 .full_image {
