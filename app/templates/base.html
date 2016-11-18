@@ -121,7 +121,11 @@
                             </div>
                             <div class="modal-body">
                                 <div>
-                                    {{ tweet|safe }}
+                                    {% if tweet %}
+                                        {{ tweet|safe }}
+                                    {% else %}
+                                        <p>No recent tweets available.</p>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
