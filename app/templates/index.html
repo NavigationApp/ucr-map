@@ -32,16 +32,32 @@
        </div>
 
 	   <a  class='img_button' href="#img_popup">
-		   <img id='button_img'  src=''>
+		   <img width=75 height=75 id='button_img'  src=''>
 		</a>
 	   <div id="img_popup" class="overlay">
 		   <div class="popup">
+			   <h2 id="popup-header"></h2>
 			   <a class="close" href='#'>x</a>
+				<div id="floor-up" class="arrow-up"></div>
+				<div id="floor-down" class="arrow-down"></div>
 			   <div class="content">
 				   <img id='full_image' src=''>
 				</div>
 			</div>
 		</div>
+
+	<!-- The Modal -->
+	<div id="myModal" class="modal">
+
+	  <!-- Modal content -->
+	  <div class="modal-content">
+		<span id="close_room" class="close">x</span>
+		<input id="room_num" type="text" placeholder='Room #' />
+		<button id="room_btn" class="button2">Go!</button>
+	  </div>
+
+	</div>
+
 
 
     </div>
