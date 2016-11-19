@@ -23,150 +23,151 @@
 </head>
 
 <body style="height: 100%; padding-bottom: -10px;">
-<nav class="navbar-inverse navbar-static-top" role=navigation style="margin-bottom: 0;" bs-navbar>
-    <div class="container" bs-collapse start-collapsed="true">
+<nav class="navbar navbar-inverse navbar-static-top" id="myNavbar">
+    <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="/">UCR Map</a>
-
-            <button class="navbar-toggle" type="button" bs-collapse-toggle>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
+            <a class="navbar-brand" href="#">UCR Nav</a>
         </div>
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
 
-        <div class="collapse navbar-collapse" bs-collapse-target>
-            <ul class="nav navbar-nav">
-                <li data-toggle="tooltip" data-placement="bottom" title="Home" data-match-route="/"><a href="/"><i
-                        class="fa fa-home fa-1x"></i></a></li>
+            <!-- Start Parking modal -->
+            <li>
+                <a data-toggle="modal" data-target="#parking-modal">Parking Info</a>
+            </li>
 
-                <!-- Large modal -->
-                {% if user %}
-                    <li>
-                        <a data-toggle="modal" data-target=".bs-example-modal-lg">
-                            <i class="fa fa-user-plus" aria-hidden="true"></i>
-                        </a>
-                    </li>
-
-                    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog"
-                         aria-labelledby="myLargeModalLabel">
-                        <div class="modal-dialog modal-lg" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                            aria-hidden="true">&times;</span></button>
-                                    <div>
-                                        <!-- Nav tabs -->
-                                        <ul class="nav nav-tabs nav-justified" role="tablist">
-                                            <li role="presentation" class="active"><a href="#friends"
-                                                                                      aria-controls="friends" role="tab"
-                                                                                      data-toggle="tab">Friends</a></li>
-                                            <li role="presentation"><a href="#search" aria-controls="search" role="tab"
-                                                                       data-toggle="tab"><i class="fa fa-plus"
-                                                                                            aria-hidden="true"></i></a>
-                                            </li>
-                                        </ul>
-
-                                        <!-- Tab panes -->
-                                        <div class="tab-content">
-                                            <div role="tabpanel" class="tab-pane active" id="friends">
-                                                <div class="form-group">
-                                                    <input type="text" id="current_friends" class="form-control"
-                                                           placeholder="Search friends">
-                                                </div>
-                                                <ul id="friends-list" class="list-group">
-
-                                                </ul>
-                                            </div>
-                                            <div role="tabpanel" class="tab-pane" id="search">
-                                                <div class="form-group">
-                                                    <input type="text" id="sfriends" class="form-control"
-                                                           placeholder="Find new friends">
-                                                </div>
-                                                <ul id="search-list" class="list-group">
-
-                                                </ul>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
+            <div class="modal fade" id="parking-modal" tabindex="-1" role="dialog"
+                 aria-labelledby="myParkingModalLabel">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Latest Parking Status</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div>
+                                {% if tweet %}
+                                    {{ tweet|safe }}
+                                {% else %}
+                                    <p>No recent tweets available.</p>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <!-- End Parking modal -->
 
+            <!-- Start events modal -->
+            <li>
+                <a data-toggle="modal" data-target="#events-modal">Events</a>
+            </li>
 
-                    <li>
-                        <a>
-                            <i class="fa fa-envelope" aria-hidden="true"></i>
-                        </a>
-                    </li>
-                {% endif %}
+            <div class="modal fade" id="events-modal" tabindex="-1" role="dialog" aria-labelledby="myEventsModalLabel">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Events</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>TODO: Finish events handler</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End events modal -->
 
-                <!-- Tweets -->
+            <!-- Start friends modal -->
+            {% if user %}
+                <!-- Friends modal icon -->
                 <li>
-                    <a data-toggle="modal" data-target="#twitter-modal">
-                        <i class="fa fa-car" aria-hidden="true"></i>
-                    </a>
+                    <a data-toggle="modal" data-target=".bs-example-modal-lg">Friends</a>
                 </li>
+                <!-- End Friends modal icon -->
 
-                <div class="modal fade" id="twitter-modal" tabindex="-1" role="dialog"
+                <!-- Friends modal action-->
+                <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog"
                      aria-labelledby="myLargeModalLabel">
                     <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                         aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title" id="myModalLabel">Latest Parking Status</h4>
-                            </div>
-                            <div class="modal-body">
                                 <div>
-                                    {% if tweet %}
-                                        {{ tweet|safe }}
-                                    {% else %}
-                                        <p>No recent tweets available.</p>
-                                    {% endif %}
+                                    <!-- Nav tabs -->
+                                    <ul class="nav nav-tabs nav-justified" role="tablist">
+                                        <li role="presentation" class="active"><a href="#friends"
+                                                                                  aria-controls="friends" role="tab"
+                                                                                  data-toggle="tab">Friends</a></li>
+                                        <li role="presentation"><a href="#search" aria-controls="search" role="tab"
+                                                                   data-toggle="tab"><i class="fa fa-plus"
+                                                                                        aria-hidden="true"></i></a>
+                                        </li>
+                                    </ul>
+
+                                    <!-- Tab panes -->
+                                    <div class="tab-content">
+                                        <div role="tabpanel" class="tab-pane active" id="friends">
+                                            <div class="form-group">
+                                                <input type="text" id="current_friends" class="form-control"
+                                                       placeholder="Search friends">
+                                            </div>
+                                            <ul id="friends-list" class="list-group">
+
+                                            </ul>
+                                        </div>
+                                        <div role="tabpanel" class="tab-pane" id="search">
+                                            <div class="form-group">
+                                                <input type="text" id="sfriends" class="form-control"
+                                                       placeholder="Find new friends">
+                                            </div>
+                                            <ul id="search-list" class="list-group">
+
+                                            </ul>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-        </div>
-    </div>
+            {% endif %}
+            <!-- End friends modal -->
 
-    <!-- Dashboard -->
-    {% if "Admin" in current_user.roles %}
-        <li data-toggle="tooltip" data-placement="bottom" title="Dashboard" data-match-route="/dashboard">
-            <a href="/dashboard">
-                <span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span>
-            </a>
-        </li>
-    {% endif %}
-    </ul>
+            <!-- Start dashboard -->
+            {% if "Admin" in current_user.roles %}
+                <li data-toggle="tooltip" data-placement="bottom" title="Dashboard" data-match-route="/dashboard">
+                    <a href="/dashboard"> Dashboard </a>
+                </li>
+            {% endif %}
+            <!-- End dashboard -->
+        </ul>
 
-    <ul class="nav navbar-nav navbar-right">
-        {% if user %}
-            <li>
-                <p class="navbar-text navbar-right">
-                    <a href="/logout/"> logout</a>
-                </p>
-                &nbsp;
-                <p class="navbar-text navbar-right">
-                    {{ user.connections.full_name }}
-                </p>
-            </li>
+        <ul class="nav navbar-nav navbar-right">
+            {% if user %}
+                <!-- Start logout -->
+                <li>
+                    <a href="/logout/" class="btn btn-outline-primary" role="button">Logout</a>
+                </li>
+                <!-- End logout -->
 
-        {% else %}
-            <li>
-                <form action="{{ url_for('social.login', provider_id='google') }}" method="POST">
-                    <button type='submit' class="btn btn-danger">
-                        <span class="fa fa-google"></span>
-                    </button>
-                </form>
-            </li>
-        {% endif %}
-    </ul>
-    </div>
+            {% else %}
+                <!-- Start login -->
+                <li>
+                    <form class="navbar-form navbar-right" action="{{ url_for('social.login', provider_id='google') }}"
+                          method="POST">
+                        <button type='submit' class="btn btn-block btn-social btn-google "> Sign in with Google
+                            <span class="fa fa-google"></span>
+                        </button>
+                    </form>
+                </li>
+                <!-- End login -->
+            {% endif %}
+        </ul>
     </div>
 </nav>
 
