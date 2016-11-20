@@ -18,19 +18,19 @@
     <div class="row">
         <div id="map" style="width: 100%; height: 100%; position: absolute;">
 
-            <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v2.2.0/mapbox-gl-directions.js'></script>
-            <script src="{{url_for('static', filename='js/awesomplete.js')}}" async></script>
+{#            <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v2.2.0/mapbox-gl-directions.js'></script>#}
+{#            <script src="{{url_for('static', filename='js/awesomplete.js')}}" async></script>#}
         </div>
 
-        <div id='map'></div>
-        <div class='destinationSearchStyle'>
-            <input id='destination-input' type='text' name='destination' placeholder='Destination'/>
-			<button class="button" id="route-button">Route!</button>
-       </div>
-        <div class='originSearchStyle'>
-            <input id='origin-input' type='text' name='origin' placeholder='Current Location'/>
-       </div>
-
+{#        <div id='map'></div>#}
+{#        <div class='destinationSearchStyle'>#}
+{#            <input id='destination-input' type='text' name='destination' placeholder='Destination'/>#}
+{#			<button class="button" id="route-button">Route!</button>#}
+{#       </div>#}
+{#        <div class='originSearchStyle'>#}
+{#            <input id='origin-input' type='text' name='origin' placeholder='Current Location'/>#}
+{#       </div>#}
+{##}
 	   <a  class='img_button' href="#img_popup">
 		   <img width=75 height=75 id='button_img'  src=''>
 		</a>
@@ -66,8 +66,8 @@
 </div> <!-- /container -->
 {% endblock %}
 
-{% block scripts %}
-{{ super() }}
-<script src="{{url_for('static', filename='geojson/features.js')}}" async></script>
-<script src="{{url_for('static', filename='js/map.js')}}" async></script>
-{% endblock %}
+{#{% block scripts %}#}
+{#{{ super() }}#}
+{#<script src="{{url_for('static', filename='geojson/features.js')}}" async></script>#}
+{#<script src="{{url_for('static', filename='js/map.js')}}" async></script>#}
+{#{% endblock %}#}

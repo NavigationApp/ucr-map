@@ -2,77 +2,62 @@
 	margin-bottom: 0;
 }
 
-.originSearchStyle {
-    width: 500px;
-    height: 45px;
-    position: absolute;
-    z-index: 2;
-    left: 2%;
-    top: 55px;
-    box-shadow:0 1px 0 0 #ddd;
-}
+/*.originSearchStyle {*/
+    /*width: 500px;*/
+    /*height: 45px;*/
+    /*position: absolute;*/
+    /*z-index: 2;*/
+    /*left: 2%;*/
+    /*top: 55px;*/
+    /*box-shadow:0 1px 0 0 #ddd;*/
+/*}*/
 
-.destinationSearchStyle {
-    width: 500px;
-    height: 45px;
-    position: absolute;
-    z-index: 2;
-    left: 2%;
-    top: 95px;
-    box-shadow:0 1px 0 0 #ddd;
-}
+/*.destinationSearchStyle {*/
+    /*width: 500px;*/
+    /*height: 45px;*/
+    /*position: absolute;*/
+    /*z-index: 2;*/
+    /*left: 2%;*/
+    /*top: 95px;*/
+    /*box-shadow:0 1px 0 0 #ddd;*/
+/*}*/
 
-
-.button {
-	position: relative;
-	top: 30px;
-	left: -75px;
-	display: inline-block;
-	padding: 4px 10px;
-	font-size: 12px;
-	cursor: pointer;
-	text-align: center;
-	text-decoration: none;
-	outline: none;
-	color: #fff;
-	background-color: #008CBA;
-	border: none;
-	border-radius: 15px;
-	box-shadow: 0 4px #999;
-}
-
-.button:hover {background-color: #006687}
-
-.button:active {
-	background-color: #008CBA;
-	box-shadow: 0 5px #666;
-	transform: translateY(4px);
-}
-
-.button {
-	position: relative;
+/*#route-button {*/
+	/*position: relative;*/
 	/*top: 30px;*/
 	/*left: -75px;*/
-	display: inline-block;
-	padding: 4px 10px;
-	font-size: 12px;
-	cursor: pointer;
-	text-align: center;
-	text-decoration: none;
-	outline: none;
-	color: #fff;
-	background-color: #008CBA;
-	border: none;
-	border-radius: 15px;
-	box-shadow: 0 4px #999;
+	/*display: inline-block;*/
+	/*padding: 4px 10px;*/
+	/*font-size: 12px;*/
+	/*cursor: pointer;*/
+	/*text-align: center;*/
+	/*text-decoration: none;*/
+	/*outline: none;*/
+	/*color: #fff;*/
+	/*background-color: #008CBA;*/
+	/*border: none;*/
+	/*border-radius: 15px;*/
+	/*box-shadow: 0 4px #999;*/
+/*}*/
+
+#route-button:hover {
+    background-color: #006687;
 }
 
-.button:hover {background-color: #006687}
-
-.button:active {
+#route-button:active {
 	background-color: #008CBA;
 	box-shadow: 0 5px #666;
 	transform: translateY(4px);
+}
+
+#route-button:hover {
+    background-color: #006687;
+}
+
+#route-button:active {
+	background-color: #008CBA;
+	box-shadow: 0 5px #666;
+	/*transform: translateY(4px);*/
 }
 
 .overlay {

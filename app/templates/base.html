@@ -37,12 +37,34 @@
             <ul class="nav navbar-nav">
                 <li class="active"><a href="#">Home</a></li>
 
+                <!-- Directions -->
+                {% if request.path == "/" %}
+                    <li class="dropdown" id="myDropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Directions
+                            <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <div class='originSearchStyle'>
+                                    <input class="form-control" id="origin-input" type="text" name="origin" placeholder="From"/>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="destinationSearchStyle">
+                                    <input class="form-control" id="destination-input" type="text" name="destination" placeholder="To"/>
+                                </div>
+                            </li>
+                            <li>
+                                <button type="button" class="btn btn-primary" id="route-button">Route!</button>
+                            </li>
+                        </ul>
+                    </li>
+                {% endif %}
+
                 <!-- Parking-->
                 <li><a data-toggle="modal" data-target="#parking-modal">Parking Info</a></li>
 
                 <!-- Events -->
                 <li><a data-toggle="modal" data-target="#events-modal">Events</a></li>
-
 
                 <!-- Friends -->
                 {% if user %}
@@ -192,7 +214,11 @@
             integrity="sha384-BLiI7JTZm+JWlgKa0M0kGRpJbF2J8q+qreVrKBC47e3K6BW78kGLrCkeRX6I9RoK"
             crossorigin="anonymous"></script>
     <script id="twitter-wjs" type="text/javascript" async defer src="//platform.twitter.com/widgets.js"></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v2.2.0/mapbox-gl-directions.js'></script>
     <script src="{{ url_for('static', filename='js/app.js' ) }}"></script>
+    <script src="{{ url_for('static', filename='js/awesomplete.js') }}" async></script>
+    <script src="{{ url_for('static', filename='geojson/features.js') }}" async></script>
+    <script src="{{ url_for('static', filename='js/map.js') }}" async></script>
 {% endblock %}
 </body>
 </html>
