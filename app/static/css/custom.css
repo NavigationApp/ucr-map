@@ -2,44 +2,6 @@
 	margin-bottom: 0;
 }
 
-/*.originSearchStyle {*/
-    /*width: 500px;*/
-    /*height: 45px;*/
-    /*position: absolute;*/
-    /*z-index: 2;*/
-    /*left: 2%;*/
-    /*top: 55px;*/
-    /*box-shadow:0 1px 0 0 #ddd;*/
-/*}*/
-
-/*.destinationSearchStyle {*/
-    /*width: 500px;*/
-    /*height: 45px;*/
-    /*position: absolute;*/
-    /*z-index: 2;*/
-    /*left: 2%;*/
-    /*top: 95px;*/
-    /*box-shadow:0 1px 0 0 #ddd;*/
-/*}*/
-
-/*#route-button {*/
-	/*position: relative;*/
-	/*top: 30px;*/
-	/*left: -75px;*/
-	/*display: inline-block;*/
-	/*padding: 4px 10px;*/
-	/*font-size: 12px;*/
-	/*cursor: pointer;*/
-	/*text-align: center;*/
-	/*text-decoration: none;*/
-	/*outline: none;*/
-	/*color: #fff;*/
-	/*background-color: #008CBA;*/
-	/*border: none;*/
-	/*border-radius: 15px;*/
-	/*box-shadow: 0 4px #999;*/
-/*}*/
-
 #route-button:hover {
     background-color: #006687;
 }
