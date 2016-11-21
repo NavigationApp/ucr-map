@@ -8,6 +8,10 @@ friends = db.Table('friends',
     db.Column('friended_id', db.Integer, db.ForeignKey('user.id'))
 )
 
+events = db.Table('events',
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
+    db.Column('event_id', db.Integer, db.ForeignKey('event.id'))
+)
 
 roles_users = db.Table('roles_users',
         db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
@@ -39,6 +43,11 @@ class User(db.Model):
                                secondaryjoin=(friends.c.friended_id == id),
                                backref=db.backref('friends', lazy='dynamic'),
                                lazy='dynamic')
+
+    events = db.relationship("event",
+                            secondary=events,
+                            back_populates="events")
+
     location = {}
 
     def friend(self, user):
@@ -106,6 +115,10 @@ class Event(db.Model):
     latitude = db.Column(db.Float(precision=8))
     start_datetime = db.Column(db.DateTime)
     end_datetime = db.Column(db.DateTime)
+
+    users = db.relationship("Child",
+                            secondary=events,
+                            back_populates="users")
 
 
 db.create_all()

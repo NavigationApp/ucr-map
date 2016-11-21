@@ -51,9 +51,9 @@ try:
     # twitter_tokens['access_token_secret'] = '88SpaVwYKh1XlY4o8WXtritdm4v0YqV8bkqTEHbfM6jlb'
 
     twitter_api = twitter.Api(consumer_key=twitter_tokens['consumer_key'],
-                          consumer_secret=twitter_tokens['consumer_secret'],
-                          access_token_key=twitter_tokens['access_token_key'],
-                          access_token_secret=twitter_tokens['access_token_secret'])
+                              consumer_secret=twitter_tokens['consumer_secret'],
+                              access_token_key=twitter_tokens['access_token_key'],
+                              access_token_secret=twitter_tokens['access_token_secret'])
 except:
     twitter_api = None
 
@@ -112,7 +112,6 @@ socketio = SocketIO(app, async_mode=async_mode)
 def get_users_dict(users, names):
     for x in names:
         yield users.keys()[users.values().index(x[0])], x
-
 
 # todo implement get_friends: it should get friends based on fuzzy search
 @socketio.on('get_all_friends')

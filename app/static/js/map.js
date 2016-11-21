@@ -3,8 +3,6 @@ mapboxgl.accessToken = access_key;
 
 var socket2 = io.connect('http://' + document.domain + ':' + location.port);
 
-
-
 var destInput = document.getElementById('destination-input');
 var originInput = document.getElementById('origin-input');
 var routeButton = document.getElementById('route-button');
@@ -26,6 +24,7 @@ var directions = new mapboxgl.Directions({
         instructions: true
     }
 });
+
 map.addControl(directions);
 
 var features = geojson.features;
