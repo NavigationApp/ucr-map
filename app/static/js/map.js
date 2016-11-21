@@ -137,7 +137,7 @@ function setDestination(feature) {
 				picIndex = floor;
 				pictures = feature.files;
 				console.log(entry);
-				document.getElementById("popup-header").innerText = feature.properties.name + " (Floor " + floor + ")";
+				document.getElementById("popup-header").innerText = feature.properties.name;
 				var button = document.getElementById("button_img");
 				button.style.visibility = "visible";
 				button.src = "/static/" + entry;
@@ -157,29 +157,24 @@ function setDestination(feature) {
 		});
 	}
 	var dest = feature.geometry.coordinates;
-	var room_popup = document.getElementById("myModal");
-	room_popup.style.display = "block";
-	document.getElementById("room_btn").addEventListener('click', function() {
-		room_num = document.getElementById("room_num").value;
-		room_popup.style.display = "none";
-		console.log("Room #" + room_num);
-		if (feature.rooms !== undefined) {
-			feature.rooms.forEach(function(room) {
-				console.log(room_num)
-				if (room.number.toString() == room_num) {
-					feature.doors.forEach(function(door) {
-						if (door.id[0] == room.id) {
-							dest = [door.longitude, door.latitude];
-							console.log("found a correct door to room");
-						}
-					});
-				}
-			});
-		}
-		console.log("Destination: " + dest);
+	room_num = document.getElementById("room-input").value;
 
-		directions.setDestination(dest);
-	});
+	if (feature.rooms !== undefined && room_num != "") {
+		feature.rooms.forEach(function(room) {
+			console.log(room_num)
+			if (room.number.toString() == room_num) {
+				feature.doors.some(function(door) {
+					if (door.id == room.ids[0]) {
+						dest = [door.longitude, door.latitude];
+						return true;
+					}
+				});
+			}
+		});
+	}
+	console.log("Destination: " + dest);
+
+	directions.setDestination(dest);
 
 	//var start = directions.getOrigin();
 	//console.log(feature);
@@ -238,16 +233,6 @@ map.on('load', function() {
 		minChars: 1
 	});
 			
-
-	destInput.addEventListener('awesomplete-selectcomplete', function(e) {
-		console.log(e.text.value);
-		var destination = searchFeature(features, e.text.value);
-		if (destination) {
-			setStartLocation();
-			//directions.setDestination(destination.geometry.coordinates);
-			setDestination(destination);
-		}
-	});
 
 	//destInput.addEventListener(
 	routeButton.addEventListener('click', function() {

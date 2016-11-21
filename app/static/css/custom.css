@@ -37,7 +37,7 @@
 
 .img_button {
 	position: absolute;
-	bottom: 25%;
+	top: 10%;
 	left: 10px;
 	width: 75px;
 	height: 75px;
@@ -56,6 +56,8 @@
 	position: absolute;
 	margin-left: auto;
 	margin-right:auto;
+	width: 90%;
+	height: 90%;
 }
 
 
