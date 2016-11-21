@@ -265,10 +265,24 @@ map.on('load', function() {
 		document.getElementById('myModal').style.display = "none";
 	});
 
+	roomInput.addEventListener('focus', function() {
+		if (room_awesomplete.ul.childNodes.length === 0) {
+			room_awesomplete.minChars = 0;
+			room_awesomplete.evaluate();
+		}
+		else if (room_awesomplete.ul.hasAttribute('hidden')) {
+			room_awesomplete.open();
+		}
+		else {
+			room_awesomplete.close();
+		}
+	});
+
 	destInput.addEventListener('awesomplete-selectcomplete', function(e) {
 		var destination = searchFeature(features, e.text.value);
 		if (destination) {
 			rooms = [];
+			rooms.push("N/A");
 			if (destination.rooms !== 'undefined') {
 				destination.rooms.forEach(function(room) {
 					rooms.push(room.number);

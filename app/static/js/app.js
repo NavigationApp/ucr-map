@@ -74,7 +74,3 @@ $('#directions-dropdown').on('click', function (event) {
     $(this).parent().toggleClass('open');
 });
 
-//document.getElementById('directions-dropdown').on('click', function(event) {
-	//$(this).parent().toggleClass('open');
-//});
-
