@@ -69,3 +69,12 @@ if(friend_list_box)
     socket.send('get_friend');
     }
 }
+
+$('#directions-dropdown').on('click', function (event) {
+    $(this).parent().toggleClass('open');
+});
+
+//document.getElementById('directions-dropdown').on('click', function(event) {
+	//$(this).parent().toggleClass('open');
+//});
+

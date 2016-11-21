@@ -7,9 +7,12 @@ var socket2 = io.connect('http://' + document.domain + ':' + location.port);
 
 var destInput = document.getElementById('destination-input');
 var originInput = document.getElementById('origin-input');
+var roomInput = document.getElementById('room-input');
 var routeButton = document.getElementById('route-button');
 var upArrow = document.getElementById('floor-up');
 var downArrow = document.getElementById('floor-down');
+
+
 
 var map = new mapboxgl.Map({
     container: 'map',
@@ -128,6 +131,7 @@ function deg2rad(deg) {
   return deg * (Math.PI/180)
 }
 
+
 function setDestination(feature) {
 	console.log(feature.files);
 	if (feature.files !== undefined && feature.files.length > 0) {
@@ -232,6 +236,11 @@ map.on('load', function() {
 		list: feature_names,
 		minChars: 1
 	});
+
+	var room_awesomplete = new Awesomplete(roomInput, {
+		list: [],
+		minChars: 0
+	});
 			
 
 	//destInput.addEventListener(
@@ -255,6 +264,23 @@ map.on('load', function() {
 	document.getElementById('close_room').addEventListener('click', function() {
 		document.getElementById('myModal').style.display = "none";
 	});
+
+	destInput.addEventListener('awesomplete-selectcomplete', function(e) {
+		var destination = searchFeature(features, e.text.value);
+		if (destination) {
+			rooms = [];
+			if (destination.rooms !== 'undefined') {
+				destination.rooms.forEach(function(room) {
+					rooms.push(room.number);
+				});
+			}
+			room_awesomplete.list = rooms;
+		}
+		else {
+			room_awesomeplete.list = [];
+		}
+	});
+
 
 
 	map.on('mousemove', function(e) {
