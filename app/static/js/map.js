@@ -1,7 +1,13 @@
-var access_key = 'pk.eyJ1IjoiamhvbGxpc3RlciIsImEiOiJjaXR6YXI4enEwYnpwMnhuMjcycGJhYnBhIn0.K5YOZULwqBY53i9M_l0tOA';
+var access_key = 'pk.eyJ1Ijoia2VubGV5YXJhaSIsImEiOiJjaXR5dzFwZmUwYTU4Mm9xbW9vNm1jYnI4In0.bCIRg12czhSo9veGgWa0Dw';
 mapboxgl.accessToken = access_key;
 
 var socket2 = io.connect('http://' + document.domain + ':' + location.port);
+
+var create_event_state = true;
+
+function set_create_event_state(){
+	create_event_state != create_event_state;
+}
 
 var destInput = document.getElementById('destination-input');
 var originInput = document.getElementById('origin-input');
@@ -10,10 +16,12 @@ var upArrow = document.getElementById('floor-up');
 var downArrow = document.getElementById('floor-down');
 
 var map = new mapboxgl.Map({
-    container: 'map',
-    style: 'mapbox://styles/jhollister/citzb2fdj00ef2hlbnrqk2fw8',
-    center: [-117.325, 33.973],
-    zoom: 16,
+ 	style: 'mapbox://styles/mapbox/light-v9',
+    center: [-74.0066, 40.7135],
+    zoom: 15,
+    pitch: 45,
+    bearing: -17.6,
+    container: 'map'
 });
 
 var directions = new mapboxgl.Directions({
@@ -201,7 +209,26 @@ map.addControl(new mapboxgl.GeolocateControl());
 
 map.on('load', function() {
     // Add 'point' for updating user's location
-
+	map.addLayer({
+        'id': '3d-buildings',
+        'source': 'composite',
+        'source-layer': 'building',
+        'filter': ['==', 'extrude', 'true'],
+        'type': 'fill-extrusion',
+        'minzoom': 15,
+        'paint': {
+            'fill-extrusion-color': '#aaa',
+            'fill-extrusion-height': {
+                'type': 'identity',
+                'property': 'height'
+            },
+            'fill-extrusion-base': {
+                'type': 'identity',
+                'property': 'min_height'
+            },
+            'fill-extrusion-opacity': .6
+        }
+    });
     map.addSource('location-point', {
         "type": "geojson",
         "data": {
@@ -266,10 +293,16 @@ map.on('load', function() {
 	});
 
 	map.on('click', function(e) {
-		setStartLocation();
-        console.log(e.lngLat);
-		directions.setDestination([e.lngLat.lng, e.lngLat.lat]);
-        console.log(directions.getDestination());
+		if(create_event_state == true)
+		{
+			console.log("**************");
+		} else {
+			console.log("=========================");
+			setStartLocation();
+        	console.log(e.lngLat);
+			directions.setDestination([e.lngLat.lng, e.lngLat.lat]);
+        	console.log(directions.getDestination());
+		}
 	});
 
 });
