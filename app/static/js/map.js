@@ -290,7 +290,7 @@ socket2.on('connect', function () {
                     }
 
                     directions.setOrigin([longitude, latitude])
-                    socket2.emit("location", {lat: latitude, lon: longitude})
+                    socket2.emit("location", {latitude: latitude, longitude: longitude})
                 })
             }
         }, 2000);

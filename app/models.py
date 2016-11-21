@@ -1,5 +1,6 @@
 from app import db
 from flask_security import RoleMixin
+from datetime import datetime
 
 # Define associations
 
@@ -9,8 +10,8 @@ friends = db.Table('friends',
 )
 
 events = db.Table('events',
-    db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
-    db.Column('event_id', db.Integer, db.ForeignKey('event.id'))
+                  db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
+                  db.Column('event_id', db.Integer, db.ForeignKey('event.id'))
 )
 
 roles_users = db.Table('roles_users',
@@ -26,6 +27,9 @@ class Role(db.Model, RoleMixin):
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    longitude = db.Column(db.Integer)
+    latitude = db.Column(db.Integer)
+
     google_id = db.Column(db.String, unique=True)
 
     roles = db.relationship('Role',
@@ -44,11 +48,21 @@ class User(db.Model):
                                backref=db.backref('friends', lazy='dynamic'),
                                lazy='dynamic')
 
-    events = db.relationship("event",
-                            secondary=events,
-                            back_populates="events")
+    events = db.relationship('Event', secondary=events,
+                            backref=db.backref('events', lazy='dynamic'))
 
-    location = {}
+    def __init__(self, google_id, active, roles):
+        self.google_id = google_id
+        self.active = active
+        self.roles = roles
+
+    def location(self):
+        return {'longitude':self.longitude, 'latitude':self.latitude}
+
+    def set_location(self, location):
+        self.longitude = location['longitude']
+        self.latitude = location['latitude']
+        db.session.commit()
 
     def friend(self, user):
         if not self.is_friend(user):
@@ -86,11 +100,6 @@ class User(db.Model):
     def is_anonymous(self):
         return False
 
-    def __init__(self, google_id, active, roles):
-        self.google_id = google_id
-        self.active = active
-        self.roles = roles
-
     def __repr__(self):
         return "<Google ID {}>".format(self.google_id)
 
@@ -116,9 +125,16 @@ class Event(db.Model):
     start_datetime = db.Column(db.DateTime)
     end_datetime = db.Column(db.DateTime)
 
-    users = db.relationship("Child",
-                            secondary=events,
-                            back_populates="users")
+    def __init__(self, location, start_date=None, end_date=None):
+
+        self.start_date = start_date or datetime.now()
+        self.end_date = end_date or datetime.now()
+
+        self.longitude = location['longitude']
+        self.latitude = location['latitude']
+
+    def __repr__(self):
+        return str(self.longitude)
 
 
 db.create_all()

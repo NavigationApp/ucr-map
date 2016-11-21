@@ -20,7 +20,7 @@ app = Flask(__name__)
 heroku = Heroku()
 
 # Setting up SSL
-# sslify = SSLify(app)
+#sslify = SSLify(app)
 app.secret_key = os.environ.get('SECRET', 'DEV_SECRET')
 app.debug = False
 
@@ -66,7 +66,7 @@ for k in twitter_tokens:
 from views import index, logout, dashboard
 
 # Setup Flask-Security
-from app.models import User, Role, Connection
+from app.models import User, Role, Connection, Event
 
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 app.security = Security(app, user_datastore)
@@ -121,11 +121,17 @@ def get_all_friends_event():
     else:
         return False
 
+@socketio.on('set_event')
+def set_event_event(location):
+    if current_user.is_authenticated:
+        event = Event(current_user.location())
+    else:
+        return False
 
 @socketio.on('location')
 def location_event(location):
     if current_user.is_authenticated:
-        current_user.location = location
+        current_user.set_location(location)
     else:
         return False
 
