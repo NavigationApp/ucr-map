@@ -280,6 +280,7 @@ map.on('load', function() {
 
 	destInput.addEventListener('awesomplete-selectcomplete', function(e) {
 		var destination = searchFeature(features, e.text.value);
+		roomInput.value = "";
 		if (destination) {
 			rooms = [];
 			rooms.push("N/A");
@@ -293,6 +294,8 @@ map.on('load', function() {
 		else {
 			room_awesomeplete.list = [];
 		}
+		room_awesomplete.evaluate();
+		room_awesomplete.close();
 	});
 
 
