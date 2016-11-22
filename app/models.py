@@ -64,6 +64,14 @@ class User(db.Model):
         self.latitude = location['latitude']
         db.session.commit()
 
+    def add_event(self, event):
+        self.events.append(event)
+        db.session.commit()
+
+    def remove_event(self, event):
+        self.events.remove(event)
+        db.session.commit()
+
     def friend(self, user):
         if not self.is_friend(user):
             self.friended.append(user)
@@ -119,13 +127,17 @@ class Connection(db.Model):
 
 class Event(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(255))
     description = db.Column(db.String(255))
     longitude = db.Column(db.Float(precision=8))
     latitude = db.Column(db.Float(precision=8))
     start_datetime = db.Column(db.DateTime)
     end_datetime = db.Column(db.DateTime)
 
-    def __init__(self, location, start_date=None, end_date=None):
+    def __init__(self, location, title, description, start_date=None, end_date=None):
+
+        self.title = title
+        self.description = description
 
         self.start_date = start_date or datetime.now()
         self.end_date = end_date or datetime.now()
@@ -133,8 +145,11 @@ class Event(db.Model):
         self.longitude = location['longitude']
         self.latitude = location['latitude']
 
+    def location(self):
+        return {'longitude':self.longitude, 'latitude':self.latitude}
+
     def __repr__(self):
-        return str(self.longitude)
+        return str(self.location())
 
 
 db.create_all()

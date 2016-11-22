@@ -122,9 +122,10 @@ def get_all_friends_event():
         return False
 
 @socketio.on('set_event')
-def set_event_event():
+def set_event_event(event):
     if current_user.is_authenticated:
-        event = Event(current_user.location())
+        event = Event(event['location'], event['title'], event['desc'], start_date=event['date'])
+        current_user.add_event(event)
     else:
         return False
 

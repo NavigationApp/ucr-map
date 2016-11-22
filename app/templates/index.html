@@ -2,6 +2,7 @@
 
 {% block styles %}
 {{ super() }}
+
 <link rel='stylesheet'
       href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v2.2.0/mapbox-gl-directions.css'
       type='text/css'/>
@@ -17,11 +18,32 @@
     <!-- Main Content-->
     <div class="row">
         <div id="map" style="width: 100%; height: 100%; position: absolute;">
-
 {#            <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v2.2.0/mapbox-gl-directions.js'></script>#}
 {#            <script src="{{url_for('static', filename='js/awesomplete.js')}}" async></script>#}
         </div>
+        <div class='map-overlay top'>
+            <div id='event-menu' class='map-overlay-inner' style="visibility: hidden">
 
+               <fieldset>
+                   <label>Event name</label>
+                   <input id='event-title' type='text' value='' />
+                   <label>Event description</label>
+                   <textarea id='event-desc' name=''></textarea>
+               </fieldset>
+
+                <div class="input-group date" data-provide="datepicker">
+                    <input id='event-date' type="text" class="form-control">
+                    <div class="input-group-addon">
+                        <span class="glyphicon glyphicon-th"></span>
+                    </div>
+                </div>
+
+                <div class='pill'><a href='#' id="event-creator" class='button'>Create Event</a>
+
+                </div>
+
+            </div>
+        </div>
 {#        <div id='map'></div>#}
 {#        <div class='destinationSearchStyle'>#}
 {#            <input id='destination-input' type='text' name='destination' placeholder='Destination'/>#}
@@ -34,6 +56,7 @@
 	   <a  class='img_button' href="#img_popup">
 		   <img width=75 height=75 id='button_img'  src=''>
 		</a>
+
 	   <div id="img_popup" class="overlay">
 		   <div class="popup">
 			   <h2 id="popup-header"></h2>

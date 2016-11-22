@@ -1,13 +1,7 @@
-var access_key = 'pk.eyJ1Ijoia2VubGV5YXJhaSIsImEiOiJjaXR5dzFwZmUwYTU4Mm9xbW9vNm1jYnI4In0.bCIRg12czhSo9veGgWa0Dw';
+var access_key = 'pk.eyJ1IjoiamhvbGxpc3RlciIsImEiOiJjaXR6YXI4enEwYnpwMnhuMjcycGJhYnBhIn0.K5YOZULwqBY53i9M_l0tOA';
 mapboxgl.accessToken = access_key;
-
+$('.datepicker').datepicker();
 var socket2 = io.connect('http://' + document.domain + ':' + location.port);
-
-var create_event_state = true;
-
-function set_create_event_state(){
-	create_event_state != create_event_state;
-}
 
 var destInput = document.getElementById('destination-input');
 var originInput = document.getElementById('origin-input');
@@ -15,17 +9,20 @@ var roomInput = document.getElementById('room-input');
 var routeButton = document.getElementById('route-button');
 var upArrow = document.getElementById('floor-up');
 var downArrow = document.getElementById('floor-down');
-
-
+var newEvent = document.getElementById('new-event');
+var menu = document.getElementById('event-menu');
+var eventButton = document.getElementById('event-creator');
 
 var map = new mapboxgl.Map({
- 	style: 'mapbox://styles/mapbox/light-v9',
-    center: [-74.0066, 40.7135],
-    zoom: 15,
-    pitch: 45,
-    bearing: -17.6,
-    container: 'map'
+    container: 'map',
+    style: 'mapbox://styles/jhollister/citzb2fdj00ef2hlbnrqk2fw8',
+    center: [-117.328, 33.973],
+    zoom: 16,
 });
+
+var popup = new mapboxgl.Popup({offset:{'bottom':[0,-45]}})
+    .setLngLat([-117.328, 33.973])
+    .setHTML('Place marker on event')
 
 var directions = new mapboxgl.Directions({
     profile: 'walking',
@@ -35,6 +32,8 @@ var directions = new mapboxgl.Directions({
         instructions: true
     }
 });
+
+
 
 map.addControl(directions);
 
@@ -207,32 +206,15 @@ function setDestination(feature) {
 }
 
 
-
-
 map.addControl(new mapboxgl.GeolocateControl());
 
 map.on('load', function() {
     // Add 'point' for updating user's location
-	map.addLayer({
-        'id': '3d-buildings',
-        'source': 'composite',
-        'source-layer': 'building',
-        'filter': ['==', 'extrude', 'true'],
-        'type': 'fill-extrusion',
-        'minzoom': 15,
-        'paint': {
-            'fill-extrusion-color': '#aaa',
-            'fill-extrusion-height': {
-                'type': 'identity',
-                'property': 'height'
-            },
-            'fill-extrusion-base': {
-                'type': 'identity',
-                'property': 'min_height'
-            },
-            'fill-extrusion-opacity': .6
-        }
+ 	map.addSource('point', {
+        "type": "geojson",
+        "data": geojson
     });
+
     map.addSource('location-point', {
         "type": "geojson",
         "data": {
@@ -240,6 +222,7 @@ map.on('load', function() {
             "features": []
         }
     });
+
     map.addLayer({
 		"id": "location",
         "source": "location-point",
@@ -248,6 +231,18 @@ map.on('load', function() {
             "circle-radius": 8,
             "circle-color": "#007cbf"
 	    }
+    });
+	map.addLayer({
+        "id": "point",
+        "type": "circle",
+        "source": "point",
+        "paint": {
+            "circle-radius": 10,
+            "circle-color": "#3887be"
+        },
+		"layout": {
+            'visibility': 'none'
+		}
     });
 	var feature_names = [];
 	features.forEach(function(entry) {
@@ -327,27 +322,104 @@ map.on('load', function() {
 
 
 	map.on('mousemove', function(e) {
-		var features = map.queryRenderedFeatures(e.point, {
-			layers: ['building-poi']
-		});
+		var features = map.queryRenderedFeatures(e.point, { layers: ['point'] });
+
+        // Change point and cursor style as a UI indicator
+        // and set a flag to enable other mouse events.
+        if (features.length) {
+            map.setPaintProperty('point', 'circle-color', '#3bb2d0');
+            canvas.style.cursor = 'move';
+            isCursorOverPoint = true;
+            map.dragPan.disable();
+        } else {
+            map.setPaintProperty('point', 'circle-color', '#3887be');
+            canvas.style.cursor = '';
+            isCursorOverPoint = false;
+            map.dragPan.enable();
+        }
 
 		// change cursor style to indicate clickable
 		map.getCanvas().style.cursor = features.length ? 'pointer' : '';
 	});
 
 	map.on('click', function(e) {
-		if(create_event_state == true)
-		{
-			console.log("**************");
-		} else {
-			console.log("=========================");
-			setStartLocation();
-        	console.log(e.lngLat);
-			directions.setDestination([e.lngLat.lng, e.lngLat.lat]);
-        	console.log(directions.getDestination());
-		}
+		setStartLocation();
+		console.log(e.lngLat);
+		directions.setDestination([e.lngLat.lng, e.lngLat.lat]);
+		console.log(directions.getDestination());
 	});
+	map.on('mousedown', mouseDown, true);
 
+});
+
+var geojson = {
+    "type": "FeatureCollection",
+    "features": [{
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [-117.328094,33.973354]
+        }
+    }]
+};
+
+var isDragging;
+
+// Is the cursor over a point? if this
+// flag is active, we listen for a mousedown event.
+var isCursorOverPoint;
+
+var canvas = map.getCanvasContainer();
+
+function mouseDown() {
+    if (!isCursorOverPoint) return;
+
+    isDragging = true;
+
+    // Set a cursor indicator
+    canvas.style.cursor = 'grab';
+
+    // Mouse events
+    map.on('mousemove', onMove);
+    map.on('mouseup', onUp);
+}
+
+function onMove(e) {
+    if (!isDragging) return;
+    var coords = e.lngLat;
+
+    // Set a UI indicator for dragging.
+    canvas.style.cursor = 'grabbing';
+
+    // Update the Point feature in `geojson` coordinates
+    // and call setData to the source layer `point` on it.
+    geojson.features[0].geometry.coordinates = [coords.lng, coords.lat];
+    map.getSource('point').setData(geojson);
+}
+
+function onUp(e) {
+    if (!isDragging) return;
+    var coords = e.lngLat;
+
+    isDragging = false;
+}
+
+newEvent.addEventListener('click', function() {
+	popup.addTo(map);
+	map.setLayoutProperty('point', 'visibility', 'visible');
+	menu.style.visibility = 'visible';
+});
+
+eventButton.addEventListener('click', function() {
+	var title = document.getElementById('event-title').value;
+	var desc = document.getElementById('event-desc').value;
+	var date = document.getElementById('event-date').value;
+	var lng = geojson.features[0].geometry.coordinates[0]
+	var lat = geojson.features[0].geometry.coordinates[1]
+	map.setLayoutProperty('point', 'visibility', 'none');
+	menu.style.visibility = 'hidden';
+
+	socket2.emit('set_event', {title:title, desc:desc, date:date, location:{longitude:lng, latitude:lat}});
 });
 
 socket2.on('connect', function () {
