@@ -421,7 +421,7 @@ function onUp(e) {
     isDragging = false;
 }
 
-/*
+
 newEvent.addEventListener('click', function() {
 	popup.addTo(map);
 	map.setLayoutProperty('point', 'visibility', 'visible');
@@ -442,7 +442,7 @@ eventButton.addEventListener('click', function() {
 
 	socket2.emit('set_event', {title:title, desc:desc, date:date, location:{longitude:lng, latitude:lat}});
 });
-*/
+
 socket2.on('connect', function () {
         window.setInterval(function() {
             if (navigator.geolocation) {
