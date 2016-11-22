@@ -137,6 +137,42 @@ function deg2rad(deg) {
   return deg * (Math.PI/180)
 }
 
+// returns true if elem is in list
+function contains(list, elem) {
+	var result = false;
+	list.some(function(entry) {
+		if (entry == elem) {
+			result = true;
+			return true;
+		}
+	});
+	return result;
+}
+	
+
+
+// Returns the nearest door that matches an id in ids
+// If ids is empty returns the nearest door of any
+function closestDoor(feature, ids) {
+	var closestDoor;
+	var minDist = Number.MAX_VALUE;
+	var origin = directions.getOrigin().geometry;
+	var startLocation = [origin.coordinates[1], origin.coordinates[0]];
+	feature.doors.forEach(function(door) {
+		if (contains(ids, door.id) || ids.length == 0) {
+			var dist = distance(startLocation[0], startLocation[1], door.latitude, door.longitude);
+			if (dist < minDist) {
+				minDist = dist;
+				closestDoor = door;
+			}
+		}
+	});
+	return closestDoor;
+}
+
+
+
+
 
 function setDestination(feature) {
 	console.log(feature.files);
@@ -166,19 +202,16 @@ function setDestination(feature) {
 			floor += 1;
 		});
 	}
-	var dest = feature.geometry.coordinates;
+	var closeDoor = closestDoor(feature, []);
+	var dest = [closeDoor.longitude, closeDoor.latitude];
 	room_num = document.getElementById("room-input").value;
 
 	if (feature.rooms !== undefined && room_num != "") {
 		feature.rooms.forEach(function(room) {
 			console.log(room_num)
 			if (room.number.toString() == room_num) {
-				feature.doors.some(function(door) {
-					if (door.id == room.ids[0]) {
-						dest = [door.longitude, door.latitude];
-						return true;
-					}
-				});
+				var door = closestDoor(feature, room.ids);
+				dest = [door.longitude, door.latitude];
 			}
 		});
 	}
@@ -186,23 +219,6 @@ function setDestination(feature) {
 
 	directions.setDestination(dest);
 
-	//var start = directions.getOrigin();
-	//console.log(feature);
-	//if (feature.doors != null) {
-		//if (feature.doors.length > 1) {
-			//dest = [feature.doors[0].longitude, feature.doors[0].latitude];
-			//var doors = feature.doors;
-			//var min = distance(start[1], start[0],  doors[1].latitude, doors[1].latitude);
-			//feature.doors.forEach(function(door) {
-				//var dist = distance(start[1], start[0], door.latitude, door.longitude);
-				//console.log(dist);
-				//if (dist < min) {
-					//min = dist;
-					//dest = [door.longitude.toString(), door.latitude.toString()];
-				//}
-			//});
-		//}
-	//}
 }
 
 
