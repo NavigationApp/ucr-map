@@ -156,9 +156,11 @@
                 <h4 class="modal-title" id="myModalLabel">Events</h4>
             </div>
             <div class="modal-body">
-                <button type="button" id="new-event" data-dismiss="modal" data-loading-text="Loading..." class="btn btn-primary" autocomplete="off">
-                    Loading
-                </button>
+                <div class="list-group">
+                    {% for event in events %}
+                        <button type="button" data-dismiss="modal" onclick="directions.setDestination([{{ event.longitude }}, {{ event.latitude }}]);" class="list-group-item">{{ event.title }}</button>
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>

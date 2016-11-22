@@ -121,6 +121,16 @@ def get_all_friends_event():
     else:
         return False
 
+@socketio.on('send_location')
+def send_location_event(friend):
+    if current_user.is_authenticated:
+        if current_user.is_friend_by_id(friend['friend']):
+            event = Event(current_user.location(), "Meet me!", "here!")
+            friend = User.query.filter_by(id=friend['friend']).first()
+            friend.add_event(event)
+    else:
+        return False
+
 @socketio.on('set_event')
 def set_event_event(event):
     if current_user.is_authenticated:

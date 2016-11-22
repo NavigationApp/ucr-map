@@ -348,6 +348,7 @@ map.on('load', function() {
 		directions.setDestination([e.lngLat.lng, e.lngLat.lat]);
 		console.log(directions.getDestination());
 	});
+
 	map.on('mousedown', mouseDown, true);
 
 });
@@ -404,6 +405,7 @@ function onUp(e) {
     isDragging = false;
 }
 
+/*
 newEvent.addEventListener('click', function() {
 	popup.addTo(map);
 	map.setLayoutProperty('point', 'visibility', 'visible');
@@ -414,6 +416,9 @@ eventButton.addEventListener('click', function() {
 	var title = document.getElementById('event-title').value;
 	var desc = document.getElementById('event-desc').value;
 	var date = document.getElementById('event-date').value;
+	document.getElementById('event-title').value = "";
+	document.getElementById('event-desc').value = "";
+	document.getElementById('event-date').value = "";
 	var lng = geojson.features[0].geometry.coordinates[0]
 	var lat = geojson.features[0].geometry.coordinates[1]
 	map.setLayoutProperty('point', 'visibility', 'none');
@@ -421,7 +426,7 @@ eventButton.addEventListener('click', function() {
 
 	socket2.emit('set_event', {title:title, desc:desc, date:date, location:{longitude:lng, latitude:lat}});
 });
-
+*/
 socket2.on('connect', function () {
         window.setInterval(function() {
             if (navigator.geolocation) {

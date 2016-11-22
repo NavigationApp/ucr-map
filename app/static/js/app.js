@@ -53,11 +53,17 @@ socket.on('my_friends', function (data) {
             if (data.hasOwnProperty(key)) {
                 var val = data[key];
                 var entry = document.createElement('li');
+                var button = document.createElement('button');
+                button.id = "myButton" + key;
+                button.className = "btn btn-primary pull-right";
+                button.autocomplete = "off";
+                button.setAttribute('onclick', "socket.emit('send_location', {friend: " + key + "})");
+                button.innerHTML = 'Send Location';
                 entry.className = "list-group-item";
                 entry.id = key;
                 entry.appendChild(document.createTextNode(val));
+                entry.appendChild(button)
                 users.appendChild(entry);
-
             }
         }
     });
