@@ -11,9 +11,12 @@ function set_create_event_state(){
 
 var destInput = document.getElementById('destination-input');
 var originInput = document.getElementById('origin-input');
+var roomInput = document.getElementById('room-input');
 var routeButton = document.getElementById('route-button');
 var upArrow = document.getElementById('floor-up');
 var downArrow = document.getElementById('floor-down');
+
+
 
 var map = new mapboxgl.Map({
  	style: 'mapbox://styles/mapbox/light-v9',
@@ -134,6 +137,7 @@ function distance(lat1,lon1,lat2,lon2) {
 function deg2rad(deg) {
   return deg * (Math.PI/180)
 }
+
 
 function setDestination(feature) {
 	console.log(feature.files);
@@ -258,6 +262,11 @@ map.on('load', function() {
 		list: feature_names,
 		minChars: 1
 	});
+
+	var room_awesomplete = new Awesomplete(roomInput, {
+		list: [],
+		minChars: 0
+	});
 			
 
 	//destInput.addEventListener(
@@ -281,6 +290,40 @@ map.on('load', function() {
 	document.getElementById('close_room').addEventListener('click', function() {
 		document.getElementById('myModal').style.display = "none";
 	});
+
+	roomInput.addEventListener('focus', function() {
+		if (room_awesomplete.ul.childNodes.length === 0) {
+			room_awesomplete.minChars = 0;
+			room_awesomplete.evaluate();
+		}
+		else if (room_awesomplete.ul.hasAttribute('hidden')) {
+			room_awesomplete.open();
+		}
+		else {
+			room_awesomplete.close();
+		}
+	});
+
+	destInput.addEventListener('awesomplete-selectcomplete', function(e) {
+		var destination = searchFeature(features, e.text.value);
+		roomInput.value = "";
+		if (destination) {
+			rooms = [];
+			rooms.push("N/A");
+			if (destination.rooms !== 'undefined') {
+				destination.rooms.forEach(function(room) {
+					rooms.push(room.number);
+				});
+			}
+			room_awesomplete.list = rooms;
+		}
+		else {
+			room_awesomeplete.list = [];
+		}
+		room_awesomplete.evaluate();
+		room_awesomplete.close();
+	});
+
 
 
 	map.on('mousemove', function(e) {

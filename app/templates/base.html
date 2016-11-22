@@ -31,16 +31,16 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">UCR Nav</a>
+            <a class="navbar-brand" href="/">UCR Nav</a>
         </div>
         <div class="collapse navbar-collapse" id="myNavbarMenu">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Home</a></li>
+                <li class="active"><a href="/">Home</a></li>
 
                 <!-- Directions -->
                 {% if request.path == "/" %}
                     <li class="dropdown" id="myDropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Directions
+                        <a href="#" id='directions-dropdown' class="dropdown-toggle" role="button" aria-expanded="false">Directions
                             <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
                             <li>
@@ -51,6 +51,10 @@
                             <li>
                                 <div class="destinationSearchStyle">
                                     <input class="form-control" id="destination-input" type="text" name="destination" placeholder="To"/>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="destinationSearchStyle">
                                     <input class="form-control" id="room-input" type="text" name="room" placeholder="Room #"/>
                                 </div>
                             </li>
